@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tomorrow Basket | Mandi Fresh Veggies Durgapur</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
+    .active-tab { color: #16a34a; font-weight: bold; border-top: 2px solid #16a34a; }
+    .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.95; transform: scale(0.995); }
+    }
+    .rush-pulse { animation: pulse-slow 1.5s infinite ease-in-out; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 pb-28 md:pb-16 antialiased">
+
+  <!-- 1. TOP INFORMATION STRIP -->
+  <div class="bg-emerald-950 text-white text-[11px] py-2 px-3">
+    <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-2">
+      <span class="font-bold flex items-center gap-1.5 text-yellow-300">
+        <i class="fa fa-clock"></i> <span id="cutoff-banner">হিসাব হচ্ছে...</span>
+      </span>
+      <div class="hidden sm:flex items-center gap-5 text-emerald-100">
+        <span><i class="fa fa-leaf text-emerald-400"></i> Fresh from Market</span>
+        <span><i class="fa fa-recycle text-emerald-400"></i> No Stored Stock</span>
+        <span><i class="fa fa-tag text-emerald-400"></i> Fair Price</span>
+        <span><i class="fa fa-truck-fast text-emerald-400"></i> Tomorrow 7–9 AM</span>
+      </div>
+      <span class="text-xs font-semibold text-emerald-200">📍 দুর্গাপুর (Initial 5 KM Radius)</span>
+    </div>
+  </div>
+
+  <!-- 2. MAIN HEADER NAVIGATION -->
+  <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="handleLogoClick()">
+        <div class="w-9 h-9 bg-emerald-700 text-white flex items-center justify-center rounded-lg font-black text-lg shadow-sm">
+          TB
+        </div>
+        <div>
+          <h1 class="font-black text-lg leading-none text-emerald-800 tracking-tight">Tomorrow Basket</h1>
+          <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Aj Order ➔ Kal Sokale Fresh</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+        <button onclick="switchTab('home')" id="nav-home" class="hover:text-emerald-700 transition">Home</button>
+        <button onclick="switchTab('baskets')" id="nav-baskets" class="hover:text-emerald-700 transition">Choose Basket</button>
+        <button onclick="switchTab('shop')" id="nav-shop" class="hover:text-emerald-700 transition">Pick Items</button>
+        <button onclick="switchTab('rates')" id="nav-rates" class="hover:text-emerald-700 transition">Market Rate</button>
+        <button onclick="switchTab('myorders')" id="nav-myorders" class="hover:text-emerald-700 transition">My Orders</button>
+      </nav>
+
+      <!-- Cart Button opens Cart Drawer -->
+      <button onclick="openCartDrawer()" class="bg-emerald-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-emerald-800 transition shadow">
+        <i class="fa fa-basket-shopping text-sm"></i>
+        <span>Basket</span>
+        <span id="cart-count" class="bg-yellow-400 text-gray-900 text-[10px] px-1.5 py-0.2 rounded-full font-black">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- LIVE 9:30 PM - 10:00 PM RUSH ALARM BANNER -->
+  <div id="rush-countdown-bar" class="hidden bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white p-3 shadow-lg rush-pulse">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-3 text-xs md:text-sm font-black font-['Hind_Siliguri']">
+      <div class="flex items-center gap-2">
+        <i class="fa fa-triangle-exclamation text-yellow-300 text-base"></i>
+        <span>🚨 আর মাত্র <span id="rush-timer-digits" class="bg-black/30 px-2 py-0.5 rounded text-yellow-300 font-mono tracking-widest text-sm">--:--</span> বাকি! রাত ১০:০০ PM বাজলেই কালকের সবজি বুকিং বন্ধ হবে!</span>
+      </div>
+      <button onclick="switchTab('baskets')" class="bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-xs px-3 py-1.5 rounded-lg shadow uppercase font-extrabold whitespace-nowrap">
+        এখনই বুক করুন &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- TAB 1: HOME SCREEN -->
+  <section id="view-home" class="max-w-6xl mx-auto px-4 py-4 space-y-8">
+    
+    <!-- BIG HERO BANNER -->
+    <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-700 rounded-3xl p-6 md:p-10 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="z-10 max-w-lg space-y-3">
+        <span class="bg-yellow-400 text-gray-900 text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm inline-flex items-center gap-1.5">
+          <i class="fa fa-leaf text-emerald-900"></i> Mandi Direct • Zero Waste
+        </span>
+        <h2 class="text-3xl md:text-4xl font-black leading-tight tracking-tight">
+          Tomorrow Morning's <br class="hidden sm:inline">Fresh Basket
+        </h2>
+        <p class="text-xs md:text-sm text-emerald-100 font-['Hind_Siliguri'] leading-relaxed">
+          আজ রাত ১০টার মধ্যে Order করুন ➔ কাল সকাল ৭–৯ AM-এ সরাসরি পাইকারি মার্কেট থেকে টাটকা সবজি দরজায় পান!
+        </p>
+
+        <div class="bg-black/25 backdrop-blur-sm border border-yellow-400/50 rounded-2xl p-3 text-xs space-y-1.5 shadow-inner">
+          <div class="flex items-center gap-2 text-yellow-300 font-black">
+            <i class="fa fa-clock"></i>
+            <span>অর্ডার কাট-অফ: আজ রাত ১০:০০ PM পর্যন্ত</span>
+          </div>
+          <div class="flex items-center gap-2 text-emerald-100 font-semibold text-[11px]">
+            <i class="fa fa-truck"></i>
+            <span>ডেলিভারি সময়: কাল সকাল ৭:০০ – ৯:০০ AM</span>
+          </div>
+        </div>
+
+        <div class="flex items-baseline gap-2 pt-1">
+          <span class="text-xs text-emerald-200">Daily Baskets</span>
+          <span class="text-xl md:text-2xl font-black text-yellow-300">Starting at ₹99</span>
+        </div>
+        <div class="pt-2 flex flex-wrap gap-3">
+          <button onclick="switchTab('baskets')" class="bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-xs md:text-sm font-extrabold px-6 py-3 rounded-xl shadow-lg uppercase tracking-wider transition transform hover:-translate-y-0.5">
+            SHOP BASKETS &rarr;
+          </button>
+          <button onclick="switchTab('shop')" class="bg-white/10 hover:bg-white/20 border border-white/30 text-white text-xs md:text-sm font-bold px-5 py-3 rounded-xl transition">
+            Pick Individual Items
+          </button>
+        </div>
+      </div>
+      <div class="w-full md:w-80 h-52 md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-emerald-800/40">
+        <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=600&q=80" loading="eager" class="w-full h-full object-cover" alt="Fresh Vegetable Basket">
+      </div>
+    </div>
+
+    <!-- QUICK CATEGORY -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="font-extrabold text-base text-gray-900 flex items-center gap-2">
+          <span>Shop by Need</span>
+          <span class="text-xs font-normal text-gray-400 font-['Hind_Siliguri']">(ক্যাটাগরি অনুযায়ী কিনুন)</span>
+        </h3>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+        <div onclick="filterShopCategory('daily')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
+          <span class="text-2xl">🥔</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Daily Essentials</div>
+            <div class="text-[10px] text-gray-400">আলু, পেঁয়াজ ইত্যাদি</div>
+          </div>
+        </div>
+        <div onclick="filterShopCategory('vegetables')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
+          <span class="text-2xl">🥕</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Family Veggies</div>
+            <div class="text-[10px] text-gray-400">গাজর, কপি, বেগুন</div>
+          </div>
+        </div>
+        <div onclick="filterShopCategory('leafy')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
+          <span class="text-2xl">🥬</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Leafy Greens</div>
+            <div class="text-[10px] text-gray-400">টাটকা শাকপাতা</div>
+          </div>
+        </div>
+        <div onclick="filterShopCategory('spices')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
+          <span class="text-2xl">🌶️</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Kitchen Essentials</div>
+            <div class="text-[10px] text-gray-400">লঙ্কা, টমেটো, আদা</div>
+          </div>
+        </div>
+        <div onclick="switchTab('baskets')" class="bg-emerald-50 border border-emerald-200 hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
+          <span class="text-2xl">🧺</span>
+          <div>
+            <div class="font-bold text-xs text-emerald-800">Ready Baskets</div>
+            <div class="text-[10px] text-emerald-600 font-semibold">কম্বো বাস্কেট</div>
+          </div>
+        </div>
+        <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
+          <span class="text-2xl">➕</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Pick Your Own</div>
+            <div class="text-[10px] text-gray-400">খুচরো সবজি লিস্ট</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED BASKETS -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-black text-lg text-gray-900 font-['Hind_Siliguri']">Choose Your Basket</h3>
+          <p class="text-xs text-gray-500 font-['Hind_Siliguri']">প্রতিদিনের রেডি কম্বো বাস্কেট—সবজি বাছাইয়ের ঝামেলা থেকে মুক্তি</p>
+        </div>
+        <button onclick="switchTab('baskets')" class="text-xs text-emerald-700 font-bold hover:underline">View All &rarr;</button>
+      </div>
+      <div id="home-baskets-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div class="col-span-full py-8 text-center text-gray-400 text-xs">Loading baskets from Google Sheet...</div>
+      </div>
+    </div>
+
+    <!-- TODAY'S POPULAR VEGETABLES -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-black text-lg text-gray-900">Today's Essential Vegetables</h3>
+          <p class="text-xs text-gray-500">প্রতিদিনের রান্নার প্রয়োজনীয় খুচরো সবজি</p>
+        </div>
+        <button onclick="switchTab('shop')" class="text-xs text-emerald-700 font-bold hover:underline">View All (Pick Items) &rarr;</button>
+      </div>
+      <div id="home-popular-veggies" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="col-span-full py-6 text-center text-gray-400 text-xs">Loading vegetables...</div>
+      </div>
+    </div>
+
+    <!-- MARKET DEALS -->
+    <div class="bg-gradient-to-r from-amber-50 to-emerald-50 border border-emerald-200/80 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+      <div class="space-y-1 text-center sm:text-left">
+        <span class="bg-amber-100 text-amber-800 text-[10px] font-black uppercase px-2 py-0.5 rounded">Smart Savings</span>
+        <h4 class="font-extrabold text-base text-gray-900">Today's Market Rate & Daily Transparency</h4>
+        <p class="text-xs text-gray-600 font-['Hind_Siliguri']">প্রতিদিনের পাইকারি আড়তের রেট চেক করুন—কোনো হিডেন চার্জ বা বেশি দাম নেই।</p>
+      </div>
+      <button onclick="switchTab('rates')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow transition whitespace-nowrap">
+        View Market Rate &rarr;
+      </button>
+    </div>
+
+  </section>
+
+  <!-- TAB 2: CHOOSE BASKET SCREEN -->
+  <section id="view-baskets" class="max-w-6xl mx-auto px-4 py-4 space-y-6 hidden">
+    <div class="border-b pb-3 space-y-1">
+      <h2 class="font-extrabold text-2xl text-gray-900 font-['Hind_Siliguri']">Choose Your Basket</h2>
+      <p class="text-xs text-gray-500 font-['Hind_Siliguri']">Fresh vegetables picked from Market and delivered tomorrow morning.</p>
+    </div>
+    <div id="baskets-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading baskets from Google Sheet...</div>
+    </div>
+  </section>
+
+  <!-- TAB 3: PICK ITEMS -->
+  <section id="view-shop" class="max-w-6xl mx-auto px-4 py-4 space-y-5 hidden">
+    <div class="border-b pb-3 space-y-1">
+      <h2 class="font-extrabold text-2xl text-gray-900 font-['Hind_Siliguri']">Pick Your Items</h2>
+      <p class="text-xs text-gray-500 font-['Hind_Siliguri']">Choose the vegetables you need. We’ll pick them fresh from Market for tomorrow morning.</p>
+    </div>
+    <div class="relative">
+      <i class="fa fa-search absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+      <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search vegetables (e.g. Potato, Onion, Tomato)..." class="w-full bg-white border border-gray-300 pl-10 pr-4 py-2.5 rounded-xl text-xs outline-none focus:border-emerald-600 shadow-sm">
+    </div>
+    <div id="veggie-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+      <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading vegetables from Google Sheet...</div>
+    </div>
+  </section>
+
+  <!-- TAB 4: CHECKOUT SCREEN -->
+  <section id="view-checkout" class="max-w-3xl mx-auto px-4 py-4 space-y-6 hidden">
+    <div class="border-b pb-3 flex items-center justify-between">
+      <div>
+        <h2 class="font-extrabold text-2xl text-gray-900 font-['Hind_Siliguri']">Basket Menu & Order Review</h2>
+        <p class="text-xs text-gray-500 font-['Hind_Siliguri']">আপনার নির্বাচিত আইটেম ও ডেলিভারির ঠিকানা যাচাই করুন</p>
+      </div>
+      <button onclick="switchTab('baskets')" class="text-xs text-emerald-700 font-bold hover:underline flex items-center gap-1">
+        <i class="fa fa-arrow-left"></i> আরও যোগ করুন
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+      <div class="bg-white border rounded-2xl p-4 shadow-sm space-y-4">
+        <h3 class="font-bold text-sm text-gray-800 border-b pb-2 flex items-center gap-2">
+          <i class="fa fa-basket-shopping text-emerald-700"></i>
+          <span>নির্বাচিত বাস্কেট ও সবজির বিবরণ</span>
+        </h3>
+        <div id="review-items-list" class="space-y-2.5 max-h-72 overflow-y-auto custom-scroll pr-1"></div>
+        <div class="border-t pt-3 space-y-2 text-xs">
+          <div class="flex justify-between text-gray-600">
+            <span>আইটেম মোট:</span>
+            <span id="review-subtotal" class="font-bold text-gray-800">₹0</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>ডেলিভারি ফি:</span>
+            <span id="review-delivery" class="font-bold text-gray-800">₹0</span>
+          </div>
+          <div class="border-t pt-2 flex justify-between text-base font-black text-emerald-800">
+            <span>সর্বমোট প্রদেয়:</span>
+            <span id="review-grandtotal">₹0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white border rounded-2xl p-4 shadow-sm space-y-4">
+        <h3 class="font-bold text-sm text-gray-800 border-b pb-2 flex items-center gap-2">
+          <i class="fa fa-location-dot text-emerald-700"></i>
+          <span>ডেলিভারির সঠিক ঠিকানা</span>
+        </h3>
+        <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-3 text-xs">
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">আপনার নাম <span class="text-red-500">*</span></label>
+            <input type="text" id="custName" required placeholder="পুরো নাম লিখুন" class="w-full border p-2.5 rounded-xl outline-none">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">ফোন নম্বর (WhatsApp) <span class="text-red-500">*</span></label>
+            <div class="relative">
+              <span class="absolute left-3 top-2.5 text-gray-500 font-bold">+91</span>
+              <input type="tel" id="custPhone" required maxlength="10" placeholder="১০ ডিজিটের নম্বর" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" class="w-full border py-2.5 pl-12 pr-3 rounded-xl outline-none">
+            </div>
+            <span id="phoneError" class="text-[10px] text-red-500 hidden mt-0.5">সঠিক ১০ ডিজিটের ফোন নম্বর দিন</span>
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">ডেলিভারি এলাকা <span class="text-red-500">*</span></label>
+            <select id="custArea" required class="w-full border p-2.5 rounded-xl bg-white outline-none">
+              <option value="">এলাকা নির্বাচন করুন</option>
+              <option value="Bidhannagar">বিধাননগর (Bidhannagar)</option>
+              <option value="City Centre">সিটি সেন্টার (City Centre)</option>
+              <option value="Benachity">বেনাচিতি (Benachity)</option>
+              <option value="B-Zone">বি-জোন (B-Zone)</option>
+              <option value="Steel Park">স্টিল পার্ক (Steel Park)</option>
+              <option value="Muchipara">মুচিপাড়া (Muchipara)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">বাড়ি/ফ্ল্যাট নম্বর ও ল্যান্ডমার্ক <span class="text-red-500">*</span></label>
+            <textarea id="custAddress" required rows="2" placeholder="বাড়ি নম্বর, রাস্তার নাম, ল্যান্ডমার্ক" class="w-full border p-2.5 rounded-xl outline-none"></textarea>
+          </div>
+          <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3.5 rounded-xl text-xs transition shadow uppercase tracking-wider flex items-center justify-center gap-2">
+            <span id="submit-btn-text">অর্ডার নিশ্চিত করুন (Confirm Order)</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 5: MARKET RATES -->
+  <section id="view-rates" class="max-w-4xl mx-auto px-4 py-4 space-y-4 hidden">
+    <div class="bg-white p-4 rounded-xl border shadow-sm">
+      <h2 class="font-bold text-base text-gray-800 mb-3">Daily Market Rate Sheet</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs text-left">
+          <thead class="bg-gray-50 text-gray-600 font-bold border-b">
+            <tr>
+              <th class="p-2.5">Vegetable</th>
+              <th class="p-2.5 text-center">Today's Rate</th>
+              <th class="p-2.5 text-center">Yesterday</th>
+              <th class="p-2.5 text-right">Trend</th>
+            </tr>
+          </thead>
+          <tbody id="market-rate-rows" class="divide-y text-gray-700">
+            <tr><td colspan="4" class="p-4 text-center text-gray-400">Syncing rates...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 6: MY ORDERS -->
+  <section id="view-myorders" class="max-w-3xl mx-auto px-4 py-4 space-y-4 hidden">
+    <div class="border-b pb-2 flex justify-between items-center">
+      <div>
+        <h2 class="font-extrabold text-lg text-gray-800 font-['Hind_Siliguri']">My Orders</h2>
+        <p class="text-xs text-gray-500 font-['Hind_Siliguri']">আপনার সমস্ত বুকিং ও বর্তমান ডেলিভারি স্ট্যাটাস</p>
+      </div>
+      <button onclick="clearSavedData()" class="text-[11px] text-red-600 hover:underline">Change Profile</button>
+    </div>
+    <div class="bg-white p-4 rounded-xl border shadow-sm flex gap-2">
+      <input type="tel" id="trackPhoneInput" maxlength="10" placeholder="১০ ডিজিটের মোবাইল নম্বর দিন" class="w-full border px-3 py-2 rounded-lg text-xs outline-none">
+      <button onclick="renderOrders()" class="bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-xs hover:bg-emerald-800 transition">Search</button>
+    </div>
+    <div id="orders-list" class="space-y-3"></div>
+  </section>
+
+  <!-- FLOATING BOTTOM CART BAR -->
+  <div id="floating-cart-bar" class="fixed bottom-14 md:bottom-4 left-4 right-4 max-w-lg mx-auto z-40 hidden transition-all duration-300">
+    <div onclick="openCartDrawer()" class="bg-emerald-800 hover:bg-emerald-900 text-white p-3.5 rounded-2xl shadow-2xl flex items-center justify-between cursor-pointer border border-emerald-600">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-yellow-400 text-gray-900 rounded-full flex items-center justify-center font-black text-xs">
+          <i class="fa fa-basket-shopping"></i>
+        </div>
+        <div>
+          <span id="float-cart-items" class="font-black text-sm">0 Items</span>
+          <span class="text-xs text-emerald-200 block leading-tight">Total: <span id="float-cart-total" class="font-bold text-yellow-300">₹0</span></span>
+        </div>
+      </div>
+      <button class="bg-yellow-400 text-gray-900 font-extrabold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow">
+        <span>VIEW BASKET</span> &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cart-drawer-modal" class="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center hidden p-4">
+    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl p-5 max-h-[90vh] overflow-y-auto relative shadow-2xl flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center border-b pb-3 mb-3">
+          <h3 class="font-bold text-base text-gray-800 font-['Hind_Siliguri']">আপনার ঝুড়ি (Your Basket)</h3>
+          <button onclick="closeCartDrawer()" class="text-gray-400 hover:text-gray-700 text-xl font-bold w-8 h-8 flex items-center justify-center rounded-full">×</button>
+        </div>
+        <div id="cart-items-container" class="space-y-2.5 max-h-64 overflow-y-auto custom-scroll pr-1"></div>
+      </div>
+      <div class="border-t pt-3 mt-4 space-y-2">
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>আইটেম মোট:</span> <span id="cart-subtotal" class="font-bold text-gray-700">₹0</span>
+        </div>
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>ডেলিভারি ফি:</span> <span id="cart-delivery" class="font-bold text-gray-700">₹0</span>
+        </div>
+        <div class="border-t pt-2 flex justify-between font-extrabold text-emerald-800 text-base">
+          <span>সর্বমোট প্রদেয়:</span> <span id="cart-grandtotal">₹0</span>
+        </div>
+        <button onclick="proceedToBasketMenu()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3.5 rounded-xl text-xs transition shadow uppercase tracking-wider flex items-center justify-center gap-2 mt-2">
+          <span>অর্ডার করতে এগিয়ে যান &rarr;</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PORTAL -->
+  <section id="view-admin" class="max-w-4xl mx-auto px-4 py-6 space-y-6 hidden">
+    <div class="border-b pb-3 flex items-center justify-between">
+      <h2 class="font-black text-xl text-gray-900">Tomorrow Basket — Admin Portal</h2>
+      <button onclick="switchTab('home')" class="bg-gray-100 px-3 py-1.5 rounded-lg text-xs font-bold">Exit Admin</button>
+    </div>
+    <div id="admin-login-box" class="bg-white border p-6 rounded-2xl shadow-sm max-w-sm mx-auto space-y-4 text-center">
+      <i class="fa fa-lock text-3xl text-emerald-700"></i>
+      <h3 class="font-bold text-sm text-gray-800">Enter Admin PIN</h3>
+      <input type="password" id="adminPinInput" maxlength="6" placeholder="PIN (1234)" class="w-full border p-2.5 rounded-xl text-center text-sm font-bold tracking-widest outline-none">
+      <button onclick="verifyAdminPin()" class="w-full bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs">Login</button>
+    </div>
+    <div id="admin-dashboard-box" class="hidden space-y-5">
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-white border p-3.5 rounded-2xl shadow-sm">
+          <span class="text-[10px] text-gray-400 font-bold uppercase">Total Orders</span>
+          <div id="admin-total-orders" class="text-xl font-black text-emerald-800 mt-1">0</div>
+        </div>
+        <div class="bg-white border p-3.5 rounded-2xl shadow-sm">
+          <span class="text-[10px] text-gray-400 font-bold uppercase">Estimated Revenue</span>
+          <div id="admin-total-revenue" class="text-xl font-black text-gray-800 mt-1">₹0</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-white py-8 px-4 mt-12 border-t border-gray-800 text-xs">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 items-center text-center sm:text-left">
+      <div>
+        <h3 class="font-bold text-sm text-emerald-400 mb-1">Tomorrow Basket</h3>
+        <p class="text-gray-400 text-[11px] font-['Hind_Siliguri']">দুর্গাপুরের বিশ্বস্ত জিরো-ইনভেন্টরি ফ্রেশ সবজি ডেলিভারি সার্ভিস।</p>
+      </div>
+      <div class="space-y-1">
+        <p class="text-gray-300">🌐 Website: <span class="text-emerald-400 font-semibold">tomorrowbasket.in</span></p>
+        <p class="text-gray-300">📞 WhatsApp: <span class="text-emerald-400 font-semibold">+91 98765 43210</span></p>
+      </div>
+      <div class="flex flex-col items-center sm:items-end gap-2">
+        <button onclick="switchTab('admin')" class="text-[10px] text-gray-500 hover:text-gray-400 flex items-center gap-1">
+          <i class="fa fa-lock text-[9px]"></i> <span>Admin Portal</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE BOTTOM NAV BAR -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 z-40 text-center text-[10px] text-gray-500 shadow-lg">
+    <button onclick="switchTab('home')" id="tab-btn-home" class="flex flex-col items-center active-tab w-1/5"><i class="fa fa-house text-base"></i><span class="mt-0.5">Home</span></button>
+    <button onclick="switchTab('baskets')" id="tab-btn-baskets" class="flex flex-col items-center w-1/5"><i class="fa fa-layer-group text-base"></i><span class="mt-0.5">Baskets</span></button>
+    <button onclick="switchTab('shop')" id="tab-btn-shop" class="flex flex-col items-center w-1/5"><i class="fa fa-carrot text-base"></i><span class="mt-0.5">Pick Items</span></button>
+    <button onclick="switchTab('rates')" id="tab-btn-rates" class="flex flex-col items-center w-1/5"><i class="fa fa-chart-line text-base"></i><span class="mt-0.5">Rates</span></button>
+    <button onclick="switchTab('myorders')" id="tab-btn-myorders" class="flex flex-col items-center w-1/5"><i class="fa fa-receipt text-base"></i><span class="mt-0.5">Orders</span></button>
+  </div>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-DzS92he27eqCvlZRPS1ZR7bxp3aCb6av_M6JPKRihrgu6Y0wFdjKk7O9-up8YTbI_Q/exec";
+    
+    let cart = [];
+    let liveBasketsData = [];
+    let liveVegetableData = [];
+    let currentCategory = 'all';
+    let logoClickCount = 0;
+
+    const basketDefaultImgs = [
+      "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=600&q=80",
+      "https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=600&q=80",
+      "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=600&q=80"
+    ];
+
+    const imageMapping = {
+      "potato": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300",
+      "onion": "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=300",
+      "tomato": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300",
+      "cauliflower": "https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=300",
+      "brinjal": "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=300",
+      "cabbage": "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=300",
+      "carrot": "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=300",
+      "green chilli": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=300",
+      "chilli": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=300",
+      "default": "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=300"
+    };
+
+    function getImageForVeg(name) {
+      const lower = String(name || "").toLowerCase();
+      for (const key in imageMapping) {
+        if (lower.includes(key)) return imageMapping[key];
+      }
+      return imageMapping.default;
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function isPastCutoff() {
+      const now = new Date();
+      const hours = now.getHours();
+      return hours >= 22 || hours < 5;
+    }
+
+    // Dynamic Save Badge calculation: Approx - Price
+    function getSavingsBadge(approxStr, price) {
+      const match = String(approxStr || "").match(/\d+/);
+      if (match) {
+        const approxVal = parseInt(match[0], 10);
+        const save = approxVal - price;
+        if (save > 0) {
+          return `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow">Save ₹${save}</span>`;
+        }
+      }
+      return `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full shadow">Save ₹30</span>`;
+    }
+
+    window.addEventListener("load", function () {
+      loadUserProfile();
+      loadCachedData();
+      fetchSheetData();
+      renderOrders();
+      startCutoffTicker();
+      updateCartUI();
+    });
+
+    function startCutoffTicker() {
+      function update() {
+        const now = new Date();
+        const banner = document.getElementById("cutoff-banner");
+        if (isPastCutoff()) {
+          banner.innerHTML = `<span class="text-amber-300">আজকের নিয়মিত বুকিং বন্ধ • এখন 'লেট রিকোয়েস্ট' নেওয়া হচ্ছে</span>`;
+        } else {
+          const target = new Date();
+          target.setHours(22, 0, 0, 0);
+          const diff = target - now;
+          const hours = Math.floor(diff / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          banner.innerText = `কাট-অফ: আজ রাত ১০:০০ PM (${hours}ঘণ্টা ${minutes}মি বাকি)`;
+        }
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    function switchTab(tab) {
+      ["home", "baskets", "shop", "rates", "myorders", "checkout", "admin"].forEach(function (t) {
+        const section = document.getElementById("view-" + t);
+        if (section) section.classList.add("hidden");
+        const mobileBtn = document.getElementById("tab-btn-" + t);
+        if (mobileBtn) mobileBtn.classList.remove("active-tab");
+        const navBtn = document.getElementById("nav-" + t);
+        if (navBtn) navBtn.classList.remove("text-emerald-600", "border-b-2", "border-emerald-600", "pb-1");
+      });
+
+      const target = document.getElementById("view-" + tab);
+      if (target) target.classList.remove("hidden");
+
+      const activeMobile = document.getElementById("tab-btn-" + tab);
+      if (activeMobile) activeMobile.classList.add("active-tab");
+
+      const activeDesktop = document.getElementById("nav-" + tab);
+      if (activeDesktop) activeDesktop.classList.add("text-emerald-600", "border-b-2", "border-emerald-600", "pb-1");
+
+      if (tab === "myorders") renderOrders();
+      if (tab === "checkout") renderBasketMenuReview();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleLogoClick() {
+      logoClickCount++;
+      if (logoClickCount >= 3) {
+        logoClickCount = 0;
+        switchTab('admin');
+      } else {
+        switchTab('home');
+      }
+    }
+
+    function loadCachedData() {
+      try {
+        const cachedBaskets = localStorage.getItem("tb_cache_baskets");
+        const cachedRates = localStorage.getItem("tb_cache_rates");
+        if (cachedBaskets) {
+          liveBasketsData = JSON.parse(cachedBaskets);
+          renderHomeBaskets(liveBasketsData);
+          renderComboBaskets(liveBasketsData);
+        }
+        if (cachedRates) {
+          liveVegetableData = JSON.parse(cachedRates);
+          renderHomePopularVeggies(liveVegetableData);
+          renderMarketRateTable(liveVegetableData);
+          renderShopGrid(liveVegetableData);
+        }
+      } catch (error) {
+        console.warn("Cache load warning:", error);
+      }
+    }
+
+    async function fetchSheetData() {
+      try {
+        const response = await fetch(SCRIPT_URL + "?t=" + Date.now(), { method: "GET", cache: "no-store" });
+        if (!response.ok) throw new Error("Network response failed");
+        const data = await response.json();
+        if (data.status !== "success") return;
+
+        if (Array.isArray(data.baskets) && data.baskets.length > 0) {
+          liveBasketsData = data.baskets.filter(b => {
+            const name = String(b.name || '').toLowerCase();
+            const status = String(b.status || '').toLowerCase();
+            const price = Number(b.price) || 0;
+            return price > 0 && !name.includes('vegetable name') && !name.includes('check box') && (status === '' || status === 'active' || status === 'true');
+          });
+          localStorage.setItem("tb_cache_baskets", JSON.stringify(liveBasketsData));
+          renderHomeBaskets(liveBasketsData);
+          renderComboBaskets(liveBasketsData);
+        }
+
+        if (Array.isArray(data.rates)) {
+          liveVegetableData = data.rates.filter(r => r && r.name && String(r.name).trim() && !String(r.name).toLowerCase().includes("vegetable name"));
+          localStorage.setItem("tb_cache_rates", JSON.stringify(liveVegetableData));
+          renderHomePopularVeggies(liveVegetableData);
+          renderMarketRateTable(liveVegetableData);
+          renderShopGrid(liveVegetableData);
+        }
+      } catch (error) {
+        console.warn("Sheet sync warning:", error);
+      }
+    }
+
+    // HOME: Baskets with Dynamic Savings
+    function renderHomeBaskets(baskets) {
+      const grid = document.getElementById("home-baskets-grid");
+      if (!baskets || baskets.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-8 text-center text-gray-400 text-xs">কোনো basket available নেই।</div>`;
+        return;
+      }
+
+      grid.innerHTML = baskets.slice(0, 3).map(function (b, idx) {
+        const price = Number(b.price) || 0;
+        const delFee = Number(b.deliveryFee) || 0;
+        const approx = b.approx || "";
+        const img = b.img && String(b.img).startsWith("http") ? b.img : basketDefaultImgs[idx % basketDefaultImgs.length];
+        const saveBadge = getSavingsBadge(approx, price);
+
+        return `
+          <div class="bg-white border rounded-2xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between relative cursor-pointer group" onclick="switchTab('baskets')">
+            ${saveBadge}
+            <div>
+              <div class="h-44 rounded-xl overflow-hidden mb-3 bg-gray-50 flex items-center justify-center">
+                <img src="${img}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" alt="${escapeHTML(b.name)}">
+              </div>
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-extrabold text-base text-gray-900">${escapeHTML(b.name)}</h4>
+                ${approx ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">${escapeHTML(approx)}</span>` : ""}
+              </div>
+              <p class="text-xs text-gray-500 mb-3">${escapeHTML(b.desc || "")}</p>
+            </div>
+            <div class="pt-2 border-t flex items-center justify-between">
+              <div>
+                <span class="text-base font-black text-gray-900">₹${price}</span>
+                <span class="text-[10px] text-gray-400 block">${delFee > 0 ? '+ ₹' + delFee + ' Del' : 'Free Del'}</span>
+              </div>
+              <button onclick="event.stopPropagation(); addBasketToCart(${idx}, ${JSON.stringify(String(b.name || ''))}, ${price}, ${delFee})" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow flex items-center gap-1">
+                <span>+ Add Basket</span>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // HOME: Popular Veggies with Direct Quick Add (No Redirect)
+    function renderHomePopularVeggies(items) {
+      const container = document.getElementById("home-popular-veggies");
+      if (!items || items.length === 0) {
+        container.innerHTML = `<div class="col-span-full py-6 text-center text-gray-400 text-xs">No vegetables in stock today.</div>`;
+        return;
+      }
+
+      container.innerHTML = items.slice(0, 6).map(function (v) {
+        const rate = v.todayRate ? Number(v.todayRate) : 0;
+        const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
+        const img = v.img && String(v.img).startsWith("http") ? v.img : getImageForVeg(v.name);
+
+        return `
+          <div class="bg-white border rounded-2xl p-2.5 shadow-sm flex flex-col justify-between">
+            <div class="h-24 rounded-xl overflow-hidden mb-2">
+              <img src="${img}" loading="lazy" class="w-full h-full object-cover" alt="${escapeHTML(v.name)}">
+            </div>
+            <div>
+              <div class="font-bold text-gray-800 text-xs truncate">${escapeHTML(v.name)}</div>
+              <div class="text-xs font-black text-emerald-800 mt-0.5">
+                ${rate > 0 ? "₹" + rate : "TBD"}<span class="text-[9px] text-gray-400 font-normal"> / ${unit}</span>
+              </div>
+            </div>
+            <button onclick='addQuickVegFromHome(${JSON.stringify(String(v.name))}, ${rate}, ${JSON.stringify(unit)})' class="mt-2 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold py-1.5 rounded-lg text-[11px] transition border border-emerald-200">
+              + Add
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function addQuickVegFromHome(name, baseRate, unit) {
+      if (baseRate <= 0) {
+        alert("এই সবজির আজকের রেট এখনো আপডেট হয়নি!");
+        return;
+      }
+      const unitLower = String(unit || "").toLowerCase();
+      let factor = 0.5;
+      let label = "500 GRAM";
+      if (unitLower.includes("pcs") || unitLower.includes("পিস") || unitLower.includes("bunch") || unitLower.includes("আঁটি")) {
+        factor = 1;
+        label = "1 " + unit;
+      }
+      const calcPrice = Math.round(baseRate * factor);
+      const itemTitle = `${name} (${label})`;
+
+      const existing = cart.find(i => i.title === itemTitle);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          type: "VEG",
+          title: itemTitle,
+          unitPrice: calcPrice,
+          deliveryFee: 15,
+          qty: 1
+        });
+      }
+      updateCartUI();
+      
+      const toast = document.createElement("div");
+      toast.className = "fixed top-16 right-4 z-50 bg-emerald-600 text-white font-bold text-xs px-3 py-2 rounded-xl shadow-lg";
+      toast.innerText = `${name} (${label}) কার্টে যোগ করা হয়েছে!`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    // CHOOSE BASKET: Combo Baskets with Dynamic Savings
+    function renderComboBaskets(baskets) {
+      const grid = document.getElementById("baskets-grid");
+      if (!baskets || baskets.length === 0) {
+        grid.innerHTML = `<div class="col-span-full py-10 text-center text-gray-400 text-xs">আজ কোনো basket available নেই।</div>`;
+        return;
+      }
+
+      grid.innerHTML = baskets.map(function (b, idx) {
+        const price = Number(b.price) || 0;
+        const delFee = Number(b.deliveryFee) || 0;
+        const approx = b.approx || "";
+        const desc = escapeHTML(b.desc || "");
+        const img = b.img && String(b.img).startsWith("http") ? b.img : basketDefaultImgs[idx % basketDefaultImgs.length];
+        const saveBadge = getSavingsBadge(approx, price);
+
+        let itemsHtml = "";
+        if (b.items) {
+          const itemsArr = String(b.items).split(/,|\n/).map(s => s.trim()).filter(Boolean);
+          itemsHtml = itemsArr.map(item => `
+            <li class="flex items-start gap-2 text-gray-700 text-xs font-medium">
+              <span class="text-emerald-600 font-black">✔</span>
+              <span>${escapeHTML(item)}</span>
+            </li>
+          `).join("");
+        }
+
+        const buttonText = delFee > 0 ? `+ ADD BASKET (₹${price} + ₹${delFee} Del)` : `+ ADD BASKET (₹${price} - Free Del)`;
+
+        return `
+          <div class="bg-white border rounded-2xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between relative">
+            ${saveBadge}
+            <div>
+              <div class="h-48 rounded-xl overflow-hidden mb-3 bg-gray-50 flex items-center justify-center">
+                <img src="${img}" loading="lazy" class="w-full h-full object-cover" alt="${escapeHTML(b.name)}">
+              </div>
+              <h3 class="font-extrabold text-lg text-gray-900">${escapeHTML(b.name)}</h3>
+              ${approx ? `<span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">${escapeHTML(approx)}</span>` : ""}
+              <p class="text-xs text-gray-500 mb-3">${desc}</p>
+              <div class="border-t pt-3 space-y-1.5">
+                <ul class="space-y-1.5">${itemsHtml}</ul>
+              </div>
+            </div>
+            <button id="btn-basket-${idx}" onclick='addBasketToCart(${idx}, ${JSON.stringify(String(b.name || ""))}, ${price}, ${delFee})' class="mt-5 w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3 rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5 uppercase tracking-wide">
+              <span>${buttonText}</span>
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // PICK ITEMS (খুচরো সবজি)
+    function renderShopGrid(items) {
+      const grid = document.getElementById("veggie-grid");
+      if (!items || items.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-400 text-xs">No vegetables in stock today.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(function (v, idx) {
+        const baseRate = v.todayRate ? Number(v.todayRate) : 0;
+        const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
+        const img = v.img && String(v.img).startsWith("http") ? v.img : getImageForVeg(v.name);
+        const nameLower = String(v.name || "").toLowerCase();
+
+        const isSpices = nameLower.includes("chilli") || nameLower.includes("লঙ্কা") || nameLower.includes("ginger") || nameLower.includes("আদা");
+        const isPiece = unit.includes("PCS") || unit.includes("পিস");
+
+        let tierOptions = "";
+        if (isPiece) {
+          tierOptions = `
+            <select id="veg-tier-${idx}" class="w-full border rounded-lg p-1 text-[11px] bg-white outline-none mb-2">
+              <option value="1" selected>1 PCS — ₹${baseRate}</option>
+              <option value="2">2 PCS — ₹${baseRate * 2}</option>
+            </select>
+          `;
+        } else if (isSpices) {
+          const p100 = Math.round(baseRate * 0.1);
+          const p500 = Math.round(baseRate * 0.5);
+          tierOptions = `
+            <select id="veg-tier-${idx}" class="w-full border rounded-lg p-1 text-[11px] bg-white outline-none mb-2">
+              <option value="0.1" selected>100 GRAM — ₹${p100}</option>
+              <option value="0.5">500 GRAM — ₹${p500}</option>
+            </select>
+          `;
+        } else {
+          const p500 = Math.round(baseRate * 0.5);
+          const p1kg = baseRate;
+          tierOptions = `
+            <select id="veg-tier-${idx}" class="w-full border rounded-lg p-1 text-[11px] bg-white outline-none mb-2">
+              <option value="0.5" selected>500 GRAM — ₹${p500}</option>
+              <option value="1">1 KG — ₹${p1kg}</option>
+            </select>
+          `;
+        }
+
+        return `
+          <div class="bg-white border rounded-2xl p-3 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="h-28 rounded-xl overflow-hidden mb-2 bg-gray-50 flex items-center justify-center">
+                <img src="${img}" loading="lazy" class="w-full h-full object-cover" alt="${escapeHTML(v.name)}">
+              </div>
+              <div class="font-extrabold text-gray-900 text-xs truncate">${escapeHTML(v.name)}</div>
+              <div class="text-[11px] text-gray-500 font-semibold mt-0.5 mb-1.5">
+                ${baseRate > 0 ? "রেট: ₹" + baseRate : "TBD"} <span class="text-[10px] text-gray-400">/ ${escapeHTML(unit)}</span>
+              </div>
+              ${tierOptions}
+            </div>
+            <button id="btn-veg-${idx}" ${baseRate === 0 ? "disabled" : ""} onclick='addVegFromTier(${idx}, ${JSON.stringify(String(v.name))}, ${baseRate})' class="w-full bg-emerald-700 hover:bg-emerald-800 disabled:bg-gray-300 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">
+              + Add
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function addVegFromTier(idx, name, baseRate) {
+      const select = document.getElementById("veg-tier-" + idx);
+      const factor = select ? Number(select.value) : 1;
+      const calcPrice = Math.round(baseRate * factor);
+      const label = select ? select.options[select.selectedIndex].text.split("—")[0].trim() : "1 Unit";
+      const itemTitle = `${name} (${label})`;
+
+      const existing = cart.find(i => i.title === itemTitle);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ type: "VEG", title: itemTitle, unitPrice: calcPrice, deliveryFee: 15, qty: 1 });
+      }
+      updateCartUI();
+    }
+
+    function addBasketToCart(uiIdx, name, price, delFee) {
+      const existing = cart.find(item => item.title === name);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ type: "BASKET", title: name, unitPrice: price, deliveryFee: delFee, qty: 1 });
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+      let deliveryFee = subtotal >= 299 ? 0 : 15;
+      if (cart.some(item => item.title.includes("299"))) deliveryFee = 0;
+      else if (cart.some(item => item.title.includes("199"))) deliveryFee = 10;
+      const grandTotal = subtotal + deliveryFee;
+
+      document.getElementById("cart-count").innerText = totalCount;
+      const floatBar = document.getElementById("floating-cart-bar");
+      if (totalCount > 0) {
+        floatBar.classList.remove("hidden");
+        document.getElementById("float-cart-items").innerText = `${totalCount} Items`;
+        document.getElementById("float-cart-total").innerText = `₹${grandTotal}`;
+      } else {
+        floatBar.classList.add("hidden");
+      }
+    }
+
+    function openCartDrawer() {
+      if (cart.length === 0) {
+        alert("আপনার ঝুড়ি বর্তমানে খালি।");
+        return;
+      }
+      const container = document.getElementById("cart-items-container");
+      container.innerHTML = cart.map((item, idx) => `
+        <div class="flex justify-between items-center bg-gray-50 border p-2.5 rounded-xl text-xs">
+          <div>
+            <h5 class="font-bold text-gray-800">${escapeHTML(item.title)}</h5>
+            <div class="text-[11px] text-emerald-700 font-extrabold">₹${item.unitPrice} × ${item.qty} = ₹${item.unitPrice * item.qty}</div>
+          </div>
+          <button onclick="removeCartItem(${idx})" class="text-red-500 text-xs"><i class="fa fa-trash"></i></button>
+        </div>
+      `).join("");
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+      let deliveryFee = subtotal >= 299 ? 0 : 15;
+      if (cart.some(item => item.title.includes("299"))) deliveryFee = 0;
+      else if (cart.some(item => item.title.includes("199"))) deliveryFee = 10;
+
+      document.getElementById("cart-subtotal").innerText = "₹" + subtotal;
+      document.getElementById("cart-delivery").innerText = deliveryFee === 0 ? "FREE" : "₹" + deliveryFee;
+      document.getElementById("cart-grandtotal").innerText = "₹" + (subtotal + deliveryFee);
+      document.getElementById("cart-drawer-modal").classList.remove("hidden");
+    }
+
+    function closeCartDrawer() {
+      document.getElementById("cart-drawer-modal").classList.add("hidden");
+    }
+
+    function removeCartItem(idx) {
+      cart.splice(idx, 1);
+      updateCartUI();
+      if (cart.length === 0) closeCartDrawer();
+      else openCartDrawer();
+    }
+
+    function proceedToBasketMenu() {
+      closeCartDrawer();
+      switchTab("checkout");
+    }
+
+    function renderBasketMenuReview() {
+      if (cart.length === 0) {
+        switchTab("baskets");
+        return;
+      }
+      const container = document.getElementById("review-items-list");
+      container.innerHTML = cart.map(item => `
+        <div class="flex justify-between items-center bg-gray-50 border p-2.5 rounded-xl text-xs">
+          <div>
+            <span class="font-bold text-gray-800">${escapeHTML(item.title)}</span>
+            <span class="text-[11px] text-gray-500 block">পরিমাণ: ${item.qty} টি</span>
+          </div>
+          <span class="font-black text-emerald-800">₹${item.unitPrice * item.qty}</span>
+        </div>
+      `).join("");
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+      let deliveryFee = subtotal >= 299 ? 0 : 15;
+      if (cart.some(item => item.title.includes("299"))) deliveryFee = 0;
+      else if (cart.some(item => item.title.includes("199"))) deliveryFee = 10;
+
+      document.getElementById("review-subtotal").innerText = "₹" + subtotal;
+      document.getElementById("review-delivery").innerText = deliveryFee === 0 ? "FREE" : "₹" + deliveryFee;
+      document.getElementById("review-grandtotal").innerText = "₹" + (subtotal + deliveryFee);
+    }
+
+    async function submitOrder(e) {
+      e.preventDefault();
+      const phone = document.getElementById("custPhone").value.trim();
+      if (!/^\d{10}$/.test(phone)) {
+        document.getElementById("phoneError").classList.remove("hidden");
+        return;
+      }
+      document.getElementById("phoneError").classList.add("hidden");
+
+      const userProfile = {
+        name: document.getElementById("custName").value.trim(),
+        phone: phone,
+        area: document.getElementById("custArea").value,
+        address: document.getElementById("custAddress").value.trim()
+      };
+      localStorage.setItem("tb_user", JSON.stringify(userProfile));
+
+      const now = new Date();
+      const orderId = "TB-" + now.getFullYear() + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0") + "-" + String(now.getHours()).padStart(2, "0") + String(now.getMinutes()).padStart(2, "0");
+      const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
+      let deliveryFee = subtotal >= 299 ? 0 : 15;
+      const grandTotal = subtotal + deliveryFee;
+      const itemsSummary = cart.map(i => `${i.title} x ${i.qty}`).join(", ");
+
+      const orderData = {
+        orderId: orderId,
+        name: userProfile.name,
+        phone: userProfile.phone,
+        address: userProfile.address,
+        itemsSummary: itemsSummary,
+        totalAmount: grandTotal,
+        status: "Order Confirmed"
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(orderData)
+        });
+      } catch (error) {
+        console.warn("Order sync warning:", error);
+      }
+
+      alert(`🎉 অভিনন্দন! আপনার অর্ডার সফলভাবে বুক হয়েছে। Order ID: ${orderId}`);
+      cart = [];
+      updateCartUI();
+      document.getElementById("trackPhoneInput").value = userProfile.phone;
+      switchTab("myorders");
+    }
+
+    // MY ORDERS: Sync with Google Sheet to clear deleted fake orders
+    async function renderOrders() {
+      const list = document.getElementById("orders-list");
+      const phoneInput = document.getElementById("trackPhoneInput");
+      const phone = phoneInput ? phoneInput.value.trim() : "";
+
+      if (!phone) {
+        let orders = [];
+        try { orders = JSON.parse(localStorage.getItem("tb_orders") || "[]"); } catch { orders = []; }
+        displayOrdersList(orders);
+        return;
+      }
+
+      list.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">Loading live orders from Sheet...</div>`;
+
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=getOrders&phone=${phone}&_t=${Date.now()}`);
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.orders)) {
+          const sheetOrders = data.orders.map(o => ({
+            orderId: o.orderId,
+            date: o.timestamp ? o.timestamp.split(" ")[0] : "",
+            basket: o.itemsSummary,
+            amount: o.totalAmount,
+            slot: o.slot,
+            status: o.status
+          }));
+          localStorage.setItem("tb_orders", JSON.stringify(sheetOrders));
+          displayOrdersList(sheetOrders);
+        } else {
+          displayOrdersList([]);
+        }
+      } catch (e) {
+        let orders = [];
+        try { orders = JSON.parse(localStorage.getItem("tb_orders") || "[]"); } catch { orders = []; }
+        displayOrdersList(orders);
+      }
+    }
+
+    function displayOrdersList(orders) {
+      const list = document.getElementById("orders-list");
+      if (!orders.length) {
+        list.innerHTML = `
+          <div class="text-center py-10 bg-white border rounded-xl">
+            <i class="fa fa-basket-shopping text-gray-300 text-4xl mb-2"></i>
+            <p class="text-xs text-gray-500 font-['Hind_Siliguri']">কোনো অর্ডার পাওয়া যায়নি।</p>
+          </div>
+        `;
+        return;
+      }
+      list.innerHTML = orders.map(ord => `
+        <div class="bg-white border rounded-2xl p-4 shadow-sm space-y-2">
+          <div class="flex justify-between items-center border-b pb-2">
+            <div>
+              <span class="font-extrabold text-xs text-gray-900">${escapeHTML(ord.orderId)}</span>
+              <span class="text-[10px] text-gray-400 block">${escapeHTML(ord.date)}</span>
+            </div>
+            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">${escapeHTML(ord.status)}</span>
+          </div>
+          <div class="flex justify-between text-xs">
+            <span class="font-bold text-gray-700">${escapeHTML(ord.basket)}</span>
+            <span class="font-bold text-emerald-800">₹${ord.amount}</span>
+          </div>
+          <p class="text-[11px] text-gray-500 font-['Hind_Siliguri']">স্লট: ${escapeHTML(ord.slot)} (Pay on Delivery)</p>
+        </div>
+      `).join("");
+    }
+
+    function loadUserProfile() {
+      try {
+        const savedUser = JSON.parse(localStorage.getItem("tb_user") || "{}");
+        if (savedUser.name) document.getElementById("custName").value = savedUser.name;
+        if (savedUser.phone) {
+          document.getElementById("custPhone").value = savedUser.phone;
+          document.getElementById("trackPhoneInput").value = savedUser.phone;
+        }
+        if (savedUser.address) document.getElementById("custAddress").value = savedUser.address;
+        if (savedUser.area) document.getElementById("custArea").value = savedUser.area;
+      } catch (error) {}
+    }
+
+    function clearSavedData() {
+      if (confirm("প্রোফাইল তথ্য মুছে ফেলতে চান?")) {
+        localStorage.removeItem("tb_user");
+        document.getElementById("orderForm").reset();
+      }
+    }
+
+    function renderMarketRateTable(items) {
+      const tbody = document.getElementById("market-rate-rows");
+      if (!items || items.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-400">No market rates available.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = items.map(v => `
+        <tr class="hover:bg-gray-50">
+          <td class="p-2.5 font-bold">${escapeHTML(v.name)}</td>
+          <td class="p-2.5 text-center font-extrabold">₹${v.todayRate || 0}</td>
+          <td class="p-2.5 text-center text-gray-400">₹${v.yesterdayRate || 0}</td>
+          <td class="p-2.5 text-right text-emerald-600 font-bold">${escapeHTML(v.trend || "➖ 0")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function verifyAdminPin() {
+      if (document.getElementById("adminPinInput").value.trim() === "1234") {
+        document.getElementById("admin-login-box").classList.add("hidden");
+        document.getElementById("admin-dashboard-box").classList.remove("hidden");
+      } else {
+        alert("ভুল পিন!");
+      }
+    }
+  </script>
+</body>
+</html>
