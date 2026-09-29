@@ -320,6 +320,18 @@
             <label class="block font-bold text-gray-700 mb-1">বাড়ি/ফ্ল্যাট নম্বর ও ল্যান্ডমার্ক <span class="text-red-500">*</span></label>
             <textarea id="custAddress" required rows="2" placeholder="বাড়ি নম্বর, রাস্তার নাম, ল্যান্ডমার্ক" class="w-full border p-2.5 rounded-xl outline-none"></textarea>
           </div>
+
+          <!-- GPS Live Location Capture Section -->
+          <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl space-y-2">
+            <label class="block font-extrabold text-emerald-900">📍 Delivery Map Location <span class="text-red-500">*</span></label>
+            <button type="button" onclick="captureCustomerLocation()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-2 shadow-sm">
+              <i class="fa fa-location-crosshairs"></i> Use My Current Location
+            </button>
+            <div id="location-status" class="text-[11px] text-gray-600 text-center font-medium">সঠিক ডেলিভারির জন্য জিপিএস পিন নেওয়া আবশ্যক</div>
+            <input type="hidden" id="custLat" value="">
+            <input type="hidden" id="custLng" value="">
+          </div>
+
           <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3.5 rounded-xl text-xs transition shadow uppercase tracking-wider flex items-center justify-center gap-2">
             <span id="submit-btn-text">অর্ডার নিশ্চিত করুন (Confirm Order)</span>
           </button>
@@ -512,7 +524,6 @@
       return hours >= 22 || hours < 5;
     }
 
-    // Dynamic Save Badge calculation: Approx - Price
     function getSavingsBadge(approxStr, price) {
       const match = String(approxStr || "").match(/\d+/);
       if (match) {
@@ -638,7 +649,6 @@
       }
     }
 
-    // HOME: Baskets with Dynamic Savings
     function renderHomeBaskets(baskets) {
       const grid = document.getElementById("home-baskets-grid");
       if (!baskets || baskets.length === 0) {
@@ -680,7 +690,6 @@
       }).join("");
     }
 
-    // HOME: Popular Veggies with Direct Quick Add (No Redirect)
     function renderHomePopularVeggies(items) {
       const container = document.getElementById("home-popular-veggies");
       if (!items || items.length === 0) {
@@ -748,7 +757,6 @@
       setTimeout(() => toast.remove(), 2000);
     }
 
-    // CHOOSE BASKET: Combo Baskets with Dynamic Savings
     function renderComboBaskets(baskets) {
       const grid = document.getElementById("baskets-grid");
       if (!baskets || baskets.length === 0) {
@@ -799,7 +807,6 @@
       }).join("");
     }
 
-    // PICK ITEMS (খুচরো সবজি)
     function renderShopGrid(items) {
       const grid = document.getElementById("veggie-grid");
       if (!items || items.length === 0) {
@@ -978,6 +985,33 @@
       document.getElementById("review-grandtotal").innerText = "₹" + (subtotal + deliveryFee);
     }
 
+    // GPS Location Capture Function
+    function captureCustomerLocation() {
+      const statusDiv = document.getElementById("location-status");
+      if (!navigator.geolocation) {
+        alert("আপনার ব্রাউজার জিপিএস সাপোর্ট করে না।");
+        return;
+      }
+      
+      statusDiv.innerHTML = `<i class="fa fa-spinner fa-spin text-emerald-700"></i> locating... অনুগ্রহ করে পারমিশন দিন`;
+      
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          
+          document.getElementById("custLat").value = lat;
+          document.getElementById("custLng").value = lng;
+          
+          statusDiv.innerHTML = `<span class="text-emerald-700 font-bold">📍 Location Captured ✓</span> (Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)})`;
+        },
+        function(error) {
+          statusDiv.innerHTML = `<span class="text-red-600 font-bold">⚠️ Location access denied. ম্যানুয়ালি ঠিকানা লিখুন।</span>`;
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }
+
     async function submitOrder(e) {
       e.preventDefault();
       const phone = document.getElementById("custPhone").value.trim();
@@ -995,6 +1029,10 @@
       };
       localStorage.setItem("tb_user", JSON.stringify(userProfile));
 
+      const lat = document.getElementById("custLat").value || "";
+      const lng = document.getElementById("custLng").value || "";
+      const finalAddress = lat && lng ? `${userProfile.address} [Lat: ${lat}, Lng: ${lng}]` : userProfile.address;
+
       const now = new Date();
       const orderId = "TB-" + now.getFullYear() + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0") + "-" + String(now.getHours()).padStart(2, "0") + String(now.getMinutes()).padStart(2, "0");
       const subtotal = cart.reduce((sum, item) => sum + (item.unitPrice * item.qty), 0);
@@ -1006,7 +1044,7 @@
         orderId: orderId,
         name: userProfile.name,
         phone: userProfile.phone,
-        address: userProfile.address,
+        address: finalAddress,
         itemsSummary: itemsSummary,
         totalAmount: grandTotal,
         status: "Order Confirmed"
@@ -1030,7 +1068,6 @@
       switchTab("myorders");
     }
 
-    // MY ORDERS: Sync with Google Sheet to clear deleted fake orders
     async function renderOrders() {
       const list = document.getElementById("orders-list");
       const phoneInput = document.getElementById("trackPhoneInput");
