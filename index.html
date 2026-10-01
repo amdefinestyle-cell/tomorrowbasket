@@ -71,8 +71,8 @@
     </div>
   </header>
 
-  <!-- TAB 1: HOME SCREEN (WITH MARKET RATE SIDEBAR) -->
-  <section id="view-home" class="max-w-6xl mx-auto px-4 py-4 space-y-8">
+  <!-- TAB 1: HOME SCREEN (FULL WIDTH BALANCED LAYOUT) -->
+  <section id="view-home" class="max-w-6xl mx-auto px-4 py-4 space-y-9">
     
     <!-- BIG HERO BANNER -->
     <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-700 rounded-3xl p-6 md:p-10 text-white shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
@@ -90,11 +90,11 @@
         <div class="bg-black/25 backdrop-blur-sm border border-yellow-400/50 rounded-2xl p-3 text-xs space-y-1.5 shadow-inner">
           <div class="flex items-center gap-2 text-yellow-300 font-black">
             <i class="fa fa-clock"></i>
-            <span>Order Cut-off: আজ রাত ১০:০০ PM পর্যন্ত</span>
+            <span>অর্ডার কাট-অফ: আজ রাত ১০:০০ PM পর্যন্ত</span>
           </div>
           <div class="flex items-center gap-2 text-emerald-100 font-semibold text-[11px]">
             <i class="fa fa-truck"></i>
-            <span>Delivery Time: কাল সকাল ৭:০০ – ৯:০০ AM</span>
+            <span>ডেলিভারি সময়: কাল সকাল ৭:০০ – ৯:০০ AM</span>
           </div>
         </div>
 
@@ -107,100 +107,132 @@
           </button>
         </div>
       </div>
-      <div class="w-full md:w-80 h-52 md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-emerald-800/40">
-        <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=600&q=80" loading="eager" class="w-full h-full object-cover" alt="Fresh Vegetable Basket">
+      <div class="w-full md:w-80 h-52 md:h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-white flex items-center justify-center p-2">
+        <img src="basket2.png" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=600&q=80'" loading="eager" class="w-full h-full object-contain" alt="Fresh Vegetable Basket">
       </div>
     </div>
 
-    <!-- MAIN HOME LAYOUT: 2 COLUMNS ON DESKTOP -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-      
-      <!-- LEFT COLUMN: Categories, Baskets, Popular Veggies -->
-      <div class="lg:col-span-2 space-y-8">
-        
-        <!-- QUICK CATEGORY -->
-        <div class="space-y-3">
-          <h3 class="font-extrabold text-base text-gray-900 flex items-center gap-2">Shop by Need</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
-              <span class="text-2xl">🥔</span>
-              <div>
-                <div class="font-bold text-xs text-gray-800">Daily Essentials</div>
-                <div class="text-[10px] text-gray-400">Alu, Peyaj</div>
-              </div>
-            </div>
-            <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
-              <span class="text-2xl">🥕</span>
-              <div>
-                <div class="font-bold text-xs text-gray-800">Family Veggies</div>
-                <div class="text-[10px] text-gray-400">Gajor, Begun</div>
-              </div>
-            </div>
-            <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 p-3 rounded-2xl flex items-center gap-3 cursor-pointer transition">
-              <span class="text-2xl">🥬</span>
-              <div>
-                <div class="font-bold text-xs text-gray-800">Leafy Greens</div>
-                <div class="text-[10px] text-gray-400">Sak-pata</div>
-              </div>
-            </div>
+    <!-- QUICK CATEGORY (SHOP BY NEED) -->
+    <div class="space-y-3">
+      <h3 class="font-extrabold text-base text-gray-900 flex items-center gap-2">
+        <span>Shop by Need</span>
+        <span class="text-xs font-normal text-gray-400 font-['Hind_Siliguri']">(ক্যাটাগরি অনুযায়ী কিনুন)</span>
+      </h3>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+        <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-2.5 cursor-pointer transition">
+          <span class="text-2xl">🥔</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Daily Essentials</div>
+            <div class="text-[10px] text-gray-400">আলু, পেঁয়াজ</div>
           </div>
         </div>
-
-        <!-- FEATURED BASKETS -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="font-black text-lg text-gray-900 font-['Hind_Siliguri']">Our Basket Plans</h3>
-            <button onclick="switchTab('baskets')" class="text-xs text-emerald-700 font-bold hover:underline">View All &rarr;</button>
-          </div>
-          <div id="home-baskets-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="col-span-full py-8 text-center text-gray-400 text-xs">Loading baskets...</div>
+        <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-2.5 cursor-pointer transition">
+          <span class="text-2xl">🥕</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Family Veggies</div>
+            <div class="text-[10px] text-gray-400">গাজর, বেগুন</div>
           </div>
         </div>
-
-        <!-- TODAY'S POPULAR VEGETABLES -->
-        <div class="space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="font-black text-lg text-gray-900">Popular Vegetables</h3>
-            <button onclick="switchTab('shop')" class="text-xs text-emerald-700 font-bold hover:underline">View All &rarr;</button>
-          </div>
-          <div id="home-popular-veggies" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="col-span-full py-6 text-center text-gray-400 text-xs">Loading vegetables...</div>
+        <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-2.5 cursor-pointer transition">
+          <span class="text-2xl">🥬</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Leafy Greens</div>
+            <div class="text-[10px] text-gray-400">শাকপাতা</div>
           </div>
         </div>
-
-      </div>
-
-      <!-- RIGHT COLUMN: TODAY'S MARKET RATE TABLE -->
-      <div class="lg:col-span-1">
-        <div class="bg-white border rounded-2xl shadow-sm overflow-hidden sticky top-24">
-          <div class="bg-emerald-50 border-b p-3 flex justify-between items-center">
-            <h3 class="font-bold text-sm text-emerald-900 flex items-center gap-1.5">
-              <i class="fa fa-chart-line"></i> Today's Market Rate
-            </h3>
-            <span class="text-[9px] font-black text-emerald-700 uppercase bg-emerald-100 px-2 py-0.5 rounded">Durgapur Mandi</span>
+        <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-2.5 cursor-pointer transition">
+          <span class="text-2xl">🌶️</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Kitchen Essentials</div>
+            <div class="text-[10px] text-gray-400">লঙ্কা, টমেটো</div>
           </div>
-          <div class="p-3">
-            <div class="flex justify-between text-[10px] font-bold text-gray-400 uppercase border-b pb-2 mb-2 px-1">
-              <span>Item</span>
-              <div class="flex gap-4">
-                <span>Today</span>
-                <span>Trend</span>
-              </div>
-            </div>
-            <div id="home-market-rate-list" class="space-y-2.5 text-xs max-h-[60vh] overflow-y-auto custom-scroll pr-1">
-              <div class="text-center py-4 text-gray-400">Loading rates...</div>
-            </div>
-            <button onclick="switchTab('rates')" class="w-full mt-4 bg-gray-50 hover:bg-emerald-50 text-emerald-700 border font-bold py-2 rounded-xl transition text-xs">
-              View Detailed Cards &rarr;
-            </button>
+        </div>
+        <div onclick="switchTab('baskets')" class="bg-emerald-50 border border-emerald-200 hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-2.5 cursor-pointer transition">
+          <span class="text-2xl">🧺</span>
+          <div>
+            <div class="font-bold text-xs text-emerald-800">Ready Baskets</div>
+            <div class="text-[10px] text-emerald-600 font-semibold">কম্বো বাস্কেট</div>
+          </div>
+        </div>
+        <div onclick="switchTab('shop')" class="bg-white border hover:border-emerald-600 hover:shadow-md p-3 rounded-2xl flex items-center gap-2.5 cursor-pointer transition">
+          <span class="text-2xl">➕</span>
+          <div>
+            <div class="font-bold text-xs text-gray-800">Pick Your Own</div>
+            <div class="text-[10px] text-gray-400">খুচরো সবজি</div>
           </div>
         </div>
       </div>
-
     </div>
+
+    <!-- 1. OUR BASKET PLANS (ALL 3 BASKETS IN ONE ROW ACROSS THE PAGE) -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-black text-lg text-gray-900 font-['Hind_Siliguri']">Our Basket Plans</h3>
+          <p class="text-xs text-gray-500 font-['Hind_Siliguri']">প্রতিদিনের রেডি কম্বো বাস্কেট—সবজি বাছাইয়ের ঝামেলা থেকে মুক্তি</p>
+        </div>
+        <button onclick="switchTab('baskets')" class="text-xs text-emerald-700 font-bold hover:underline">View All &rarr;</button>
+      </div>
+      <!-- 3 Columns for 3 Baskets on Tablet & Desktop -->
+      <div id="home-baskets-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="col-span-full py-8 text-center text-gray-400 text-xs">Loading baskets...</div>
+      </div>
+    </div>
+
+    <!-- 2. POPULAR VEGETABLES (BAKI ITEMS) -->
+    <div class="space-y-3">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-black text-lg text-gray-900 font-['Hind_Siliguri']">Today's Essential Vegetables</h3>
+          <p class="text-xs text-gray-500 font-['Hind_Siliguri']">প্রতিদিনের রান্নার প্রয়োজনীয় তাজা খুচরো সবজি</p>
+        </div>
+        <button onclick="switchTab('shop')" class="text-xs text-emerald-700 font-bold hover:underline">View All (Pick Items) &rarr;</button>
+      </div>
+      <div id="home-popular-veggies" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+        <div class="col-span-full py-6 text-center text-gray-400 text-xs">Loading vegetables...</div>
+      </div>
+    </div>
+
+    <!-- 3. TODAY'S MARKET RATE (ELONGATED / FULL-WIDTH HORIZONTAL TABLE) -->
+    <div class="bg-white border rounded-3xl p-5 md:p-6 shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-emerald-700 text-lg"><i class="fa fa-chart-line"></i></span>
+            <h3 class="font-black text-base md:text-lg text-gray-900 font-['Hind_Siliguri']">Today's Market Rate (দৈনিক পাইকারি বাজার দর)</h3>
+            <span class="text-[9px] font-black text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">Durgapur Mandi</span>
+          </div>
+          <p class="text-xs text-gray-500 font-['Hind_Siliguri'] mt-0.5">পাইকারি আড়তের দৈনিক রেট ও দামের ওঠানামা — সম্পূর্ণ স্বচ্ছতা (Zero Hidden Margin)</p>
+        </div>
+        <button onclick="switchTab('rates')" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-4 py-2 rounded-xl transition border border-emerald-200 flex items-center gap-1.5 self-start sm:self-auto shadow-sm">
+          <span>View Detailed Cards</span> &rarr;
+        </button>
+      </div>
+
+      <!-- Wide Responsive Mandi Rate Table -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="text-[11px] font-bold text-gray-400 uppercase border-b bg-gray-50/70">
+              <th class="py-2.5 px-3">Item / সবজি</th>
+              <th class="py-2.5 px-3">Unit</th>
+              <th class="py-2.5 px-3">Today's Rate</th>
+              <th class="py-2.5 px-3">Yesterday</th>
+              <th class="py-2.5 px-3 text-right">Market Trend (ওঠানামা)</th>
+            </tr>
+          </thead>
+          <tbody id="home-market-rate-table-body" class="divide-y divide-gray-100">
+            <tr>
+              <td colspan="5" class="text-center py-6 text-gray-400">Loading live mandi rates...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </section>
 
-  <!-- TAB 2: CHOOSE BASKET SCREEN -->
+  <!-- TAB 2: CHOOSE BASKET SCREEN (3 BASKETS PERFECT IN ONE ROW) -->
   <section id="view-baskets" class="max-w-6xl mx-auto px-4 py-4 space-y-6 hidden">
     <div class="border-b pb-3 space-y-1">
       <h2 class="font-extrabold text-2xl text-gray-900 font-['Hind_Siliguri']">Choose Your Basket</h2>
@@ -228,7 +260,6 @@
 
   <!-- TAB 4: CHECKOUT SCREEN -->
   <section id="view-checkout" class="max-w-3xl mx-auto px-4 py-4 space-y-6 hidden">
-    <!-- Checkout Code remains same as previous... -->
     <div class="border-b pb-3 flex items-center justify-between">
       <div>
         <h2 class="font-extrabold text-2xl text-gray-900 font-['Hind_Siliguri']">Order Review & Checkout</h2>
@@ -275,6 +306,7 @@
               <span class="absolute left-3 top-2.5 text-gray-500 font-bold">+91</span>
               <input type="tel" id="custPhone" required maxlength="10" placeholder="10-digit number" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)" class="w-full border py-2.5 pl-12 pr-3 rounded-xl outline-none">
             </div>
+            <span id="phoneError" class="text-[10px] text-red-500 hidden mt-0.5">সঠিক ১০ ডিজিটের ফোন নম্বর দিন</span>
           </div>
           <div>
             <label class="block font-bold text-gray-700 mb-1">Delivery Area <span class="text-red-500">*</span></label>
@@ -283,12 +315,26 @@
               <option value="Bidhannagar">Bidhannagar</option>
               <option value="City Centre">City Centre</option>
               <option value="Benachity">Benachity</option>
+              <option value="B-Zone">B-Zone</option>
+              <option value="Steel Park">Steel Park</option>
+              <option value="Muchipara">Muchipara</option>
             </select>
           </div>
           <div>
             <label class="block font-bold text-gray-700 mb-1">House/Flat No & Landmark <span class="text-red-500">*</span></label>
             <textarea id="custAddress" required rows="2" placeholder="House no, Street, Landmark" class="w-full border p-2.5 rounded-xl outline-none"></textarea>
           </div>
+
+          <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl space-y-2">
+            <label class="block font-extrabold text-emerald-900">📍 GPS Map Location <span class="text-red-500">*</span></label>
+            <button type="button" onclick="captureCustomerLocation()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2 rounded-lg text-xs transition flex items-center justify-center gap-2 shadow-sm">
+              <i class="fa fa-location-crosshairs"></i> Use My Current Location
+            </button>
+            <div id="location-status" class="text-[11px] text-gray-600 text-center font-medium">GPS pin required for exact delivery</div>
+            <input type="hidden" id="custLat" value="">
+            <input type="hidden" id="custLng" value="">
+          </div>
+
           <button type="submit" id="submitBtn" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold py-3.5 rounded-xl text-xs transition shadow uppercase tracking-wider flex items-center justify-center gap-2">
             <span>Confirm Order</span>
           </button>
@@ -368,29 +414,6 @@
     </div>
   </div>
 
-  <!-- ADMIN PORTAL -->
-  <section id="view-admin" class="max-w-4xl mx-auto px-4 py-6 space-y-6 hidden">
-    <!-- Admin code unchanged -->
-    <div class="border-b pb-3 flex items-center justify-between">
-      <h2 class="font-black text-xl text-gray-900">Tomorrow Basket — Admin Portal</h2>
-      <button onclick="switchTab('home')" class="bg-gray-100 px-3 py-1.5 rounded-lg text-xs font-bold">Exit Admin</button>
-    </div>
-    <div id="admin-login-box" class="bg-white border p-6 rounded-2xl shadow-sm max-w-sm mx-auto space-y-4 text-center">
-      <i class="fa fa-lock text-3xl text-emerald-700"></i>
-      <h3 class="font-bold text-sm text-gray-800">Enter Admin PIN</h3>
-      <input type="password" id="adminPinInput" maxlength="6" placeholder="PIN (1234)" class="w-full border p-2.5 rounded-xl text-center text-sm font-bold tracking-widest outline-none">
-      <button onclick="verifyAdminPin()" class="w-full bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs">Login</button>
-    </div>
-    <div id="admin-dashboard-box" class="hidden space-y-5">
-      <div class="grid grid-cols-2 gap-3">
-        <div class="bg-white border p-3.5 rounded-2xl shadow-sm">
-          <span class="text-[10px] text-gray-400 font-bold uppercase">Total Orders</span>
-          <div id="admin-total-orders" class="text-xl font-black text-emerald-800 mt-1">0</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- MOBILE BOTTOM NAV BAR -->
   <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 z-40 text-center text-[10px] text-gray-500 shadow-lg">
     <button onclick="switchTab('home')" id="tab-btn-home" class="flex flex-col items-center active-tab w-1/5"><i class="fa fa-house text-base"></i><span class="mt-0.5">Home</span></button>
@@ -407,20 +430,37 @@
     let cart = [];
     let liveBasketsData = [];
     let liveVegetableData = [];
-    let logoClickCount = 0;
 
-    const basketDefaultImgs = ["https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=600&q=80"];
+    // DIRECT 3 BASKET IMAGES (Saved in your repository root)
+    const customBasketImages = [
+      "basket1.png", // Mini Basket
+      "basket2.png", // Family Basket
+      "basket3.png"  // Family Plus
+    ];
+
+    const fallbackImgs = [
+      "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=600&q=80",
+      "https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=600&q=80",
+      "https://images.unsplash.com/photo-1610348725531-843dff563e2c?w=600&q=80"
+    ];
 
     const imageMapping = {
       "potato": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300",
       "alu": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300",
       "onion": "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=300",
+      "peyaj": "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=300",
       "tomato": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=300",
       "cauliflower": "https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=300",
-      "brinjal": "https://images.unsplash.com/photo-1628773822500-42563f88f16f?w=300",
+      "phulkopi": "https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?w=300",
+      "brinjal": "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=300",
+      "begun": "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=300",
       "cabbage": "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=300",
+      "badhakopi": "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=300",
       "carrot": "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=300",
+      "gajor": "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=300",
       "green chilli": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=300",
+      "chilli": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=300",
+      "lanka": "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?w=300",
       "default": "https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=300"
     };
 
@@ -449,22 +489,21 @@
       }, 2500);
     }
 
-    // NEW LOGIC: SMART STEPPER UNIT FORMATTING
+    // SMART STEPPER LOGIC (100g FOR GRAM, 500g FOR KG)
     function getDisplayQty(qty, unit) {
       if (unit === 'GRAM') {
-         let g = qty * 100; // Step of 100g
+         let g = qty * 100;
          if (g >= 1000) return (g / 1000) + ' KG';
          return g + ' GM';
       }
       if (unit === 'KG') {
-         let kg = qty * 0.5; // Step of 500g
+         let kg = qty * 0.5;
          if (kg < 1) return (kg * 1000) + ' GM';
          return kg + ' KG';
       }
       return qty + ' ' + unit;
     }
 
-    // NEW LOGIC: CALCULATE PRICE BASED ON SMART UNIT
     function getPrice(qty, unit, baseRate) {
        if (unit === 'GRAM') return (baseRate / 1000) * (qty * 100);
        if (unit === 'KG') return baseRate * (qty * 0.5);
@@ -476,7 +515,7 @@
     });
 
     function switchTab(tab) {
-      ["home", "baskets", "shop", "rates", "myorders", "checkout", "admin"].forEach(function (t) {
+      ["home", "baskets", "shop", "rates", "myorders", "checkout"].forEach(function (t) {
         const section = document.getElementById("view-" + t);
         if (section) section.classList.add("hidden");
         const mobileBtn = document.getElementById("tab-btn-" + t);
@@ -493,6 +532,10 @@
 
       if (tab === "checkout") renderBasketMenuReview();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleLogoClick() {
+      switchTab('home');
     }
 
     async function fetchSheetData() {
@@ -517,97 +560,135 @@
       } catch (error) {}
     }
 
-    // HOME PAGE: COMPACT MARKET RATE LIST (RIGHT SIDE)
-    function renderHomeMarketRateList(items) {
-      const list = document.getElementById("home-market-rate-list");
-      if (!items || items.length === 0) return;
-
-      list.innerHTML = items.slice(0, 10).map(v => {
-        const today = Number(v.todayRate) || 0;
-        const yesterday = Number(v.yesterdayRate) || today;
-        let diff = today - yesterday;
-        
-        let trendHtml = `<span class="text-gray-400 font-bold">= SAME</span>`;
-        if (diff < 0) {
-          trendHtml = `<span class="text-emerald-600 font-black">▼ DOWN</span>`;
-        } else if (diff > 0) {
-          trendHtml = `<span class="text-red-500 font-black">▲ UP</span>`;
-        }
-
-        return `
-          <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0 hover:bg-gray-50 px-1 rounded transition cursor-pointer" onclick="switchTab('rates')">
-            <span class="font-bold text-gray-800">${escapeHTML(v.name)}</span>
-            <div class="flex gap-4 items-center">
-              <span class="font-black text-gray-900 w-8 text-right">₹${today}</span>
-              <span class="w-14 text-right text-[10px]">${trendHtml}</span>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
+    // HOME PAGE: RENDER 3 BASKETS IN ONE ROW WITH PERFECT WHITE BACKGROUND FIT
     function renderHomeBaskets(baskets) {
       const grid = document.getElementById("home-baskets-grid");
       if (!baskets || baskets.length === 0) return;
-      grid.innerHTML = baskets.slice(0, 2).map(function (b, idx) {
+
+      // Slice exactly 3 baskets
+      grid.innerHTML = baskets.slice(0, 3).map(function (b, idx) {
         const price = Number(b.price) || 0;
         const approx = b.approx || "";
-        const img = basketDefaultImgs[0];
+        const delFee = Number(b.deliveryFee) || 0;
+        const img = customBasketImages[idx % customBasketImages.length];
+        const fallback = fallbackImgs[idx % fallbackImgs.length];
+
         return `
-          <div class="bg-white border rounded-2xl p-4 shadow-sm hover:shadow-md transition cursor-pointer" onclick="switchTab('baskets')">
-            <div class="h-32 rounded-xl overflow-hidden mb-3 bg-gray-50">
-              <img src="${img}" loading="lazy" class="w-full h-full object-cover" alt="${escapeHTML(b.name)}">
+          <div class="bg-white border rounded-3xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between cursor-pointer group" onclick="switchTab('baskets')">
+            <div>
+              <div class="h-44 sm:h-48 rounded-2xl overflow-hidden mb-3 bg-white flex items-center justify-center p-2 border border-gray-100 group-hover:border-emerald-200 transition">
+                <img src="${img}" onerror="this.onerror=null; this.src='${fallback}'" loading="lazy" class="w-full h-full object-contain group-hover:scale-105 transition duration-300" alt="${escapeHTML(b.name)}">
+              </div>
+              <div class="flex justify-between items-start gap-1 mb-1">
+                <h4 class="font-extrabold text-sm text-gray-900 leading-tight">${escapeHTML(b.name)}</h4>
+                ${approx ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded whitespace-nowrap">${escapeHTML(approx)}</span>` : ""}
+              </div>
+              <p class="text-[11px] text-gray-500 mb-3 line-clamp-1">${escapeHTML(b.desc || "")}</p>
             </div>
-            <div class="flex justify-between items-center">
-              <h4 class="font-extrabold text-sm text-gray-900">${escapeHTML(b.name)}</h4>
-              <span class="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-1.5 py-0.5 rounded">${escapeHTML(approx)}</span>
-            </div>
-            <div class="pt-2 mt-2 border-t flex justify-between items-center">
+            <div class="pt-3 border-t flex items-center justify-between mt-auto">
               <span class="text-sm font-black text-gray-900">₹${price}</span>
-              <button onclick="event.stopPropagation(); addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${b.deliveryFee})" class="bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs">+ Add</button>
+              <button onclick="event.stopPropagation(); addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-1.5 rounded-xl text-xs transition shadow flex items-center gap-1">
+                + Add
+              </button>
             </div>
           </div>
         `;
       }).join("");
     }
 
+    // CHOOSE BASKET TAB: 3 BASKETS WITH BULLET POINTS
     function renderComboBaskets(baskets) {
       const grid = document.getElementById("baskets-grid");
       grid.innerHTML = baskets.map(function (b, idx) {
         const price = Number(b.price) || 0;
+        const img = customBasketImages[idx % customBasketImages.length];
+        const fallback = fallbackImgs[idx % fallbackImgs.length];
+        const approx = b.approx || "";
+
         return `
-          <div class="bg-white border rounded-2xl p-4 shadow-sm">
-            <div class="h-40 rounded-xl overflow-hidden mb-3 bg-gray-50">
-              <img src="${basketDefaultImgs[0]}" loading="lazy" class="w-full h-full object-cover">
+          <div class="bg-white border rounded-3xl p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+            <div>
+              <div class="h-48 sm:h-52 rounded-2xl overflow-hidden mb-3 bg-white flex items-center justify-center p-2 border border-gray-100">
+                <img src="${img}" onerror="this.onerror=null; this.src='${fallback}'" loading="lazy" class="w-full h-full object-contain" alt="${escapeHTML(b.name)}">
+              </div>
+              <div class="flex justify-between items-center mb-1">
+                <h3 class="font-extrabold text-base text-gray-900">${escapeHTML(b.name)}</h3>
+                ${approx ? `<span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">${escapeHTML(approx)}</span>` : ""}
+              </div>
+              <p class="text-xs text-gray-500 mb-3">${escapeHTML(b.desc || "")}</p>
             </div>
-            <h3 class="font-extrabold text-lg text-gray-900">${escapeHTML(b.name)}</h3>
-            <p class="text-xs text-gray-500 mb-3">${escapeHTML(b.desc)}</p>
-            <button onclick="addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${b.deliveryFee})" class="w-full bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-xs">+ Add Basket (₹${price})</button>
+            <button onclick="addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${b.deliveryFee})" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl text-xs transition shadow flex items-center justify-center gap-1.5 uppercase">
+              + Add Basket (₹${price})
+            </button>
           </div>
         `;
       }).join("");
     }
 
+    // HOME PAGE: TODAY'S MARKET RATE ELONGATED FULL-WIDTH TABLE
+    function renderHomeMarketRateList(items) {
+      const tbody = document.getElementById("home-market-rate-table-body");
+      if (!tbody || !items || items.length === 0) return;
+
+      tbody.innerHTML = items.map(v => {
+        const today = Number(v.todayRate) || 0;
+        const yesterday = Number(v.yesterdayRate) || today;
+        const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
+        let diff = today - yesterday;
+        
+        let trendHtml = `<span class="text-gray-400 font-bold text-xs">= SAME</span>`;
+        if (diff < 0) {
+          trendHtml = `<span class="text-emerald-700 font-black text-xs flex items-center justify-end gap-1"><i class="fa fa-arrow-down text-[10px]"></i> ₹${Math.abs(diff)} কমেছে</span>`;
+        } else if (diff > 0) {
+          trendHtml = `<span class="text-red-600 font-black text-xs flex items-center justify-end gap-1"><i class="fa fa-arrow-up text-[10px]"></i> ₹${diff} বেড়েছে</span>`;
+        }
+        const img = v.img && String(v.img).startsWith("http") ? v.img : getImageForVeg(v.name);
+
+        return `
+          <tr class="hover:bg-emerald-50/40 transition cursor-pointer" onclick="switchTab('rates')">
+            <td class="py-2.5 px-3 font-bold text-gray-800 flex items-center gap-2.5">
+              <div class="w-7 h-7 rounded-lg overflow-hidden bg-white border shrink-0 flex items-center justify-center">
+                <img src="${img}" onerror="this.src='https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=100'" class="w-full h-full object-cover">
+              </div>
+              <span class="text-xs">${escapeHTML(v.name)}</span>
+            </td>
+            <td class="py-2.5 px-3 font-semibold text-gray-500 text-xs">${escapeHTML(unit)}</td>
+            <td class="py-2.5 px-3 font-black text-emerald-800 text-sm">₹${today}</td>
+            <td class="py-2.5 px-3 text-gray-400 font-medium text-xs">₹${yesterday}</td>
+            <td class="py-2.5 px-3 text-right">${trendHtml}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // HOME PAGE: POPULAR VEGETABLES (6 ITEMS GRID)
     function renderHomePopularVeggies(items) {
       const grid = document.getElementById("home-popular-veggies");
       if (!items || items.length === 0) return;
-      grid.innerHTML = items.slice(0, 4).map(function (v) {
+
+      grid.innerHTML = items.slice(0, 6).map(function (v) {
         const rate = v.todayRate ? Number(v.todayRate) : 0;
         const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
         const img = getImageForVeg(v.name);
+
         return `
-          <div class="bg-white border rounded-2xl p-2.5 shadow-sm">
-            <div class="h-24 rounded-xl overflow-hidden mb-2">
-              <img src="${img}" loading="lazy" class="w-full h-full object-cover">
+          <div class="bg-white border rounded-2xl p-2.5 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="h-24 rounded-xl overflow-hidden mb-2 bg-gray-50">
+                <img src="${img}" loading="lazy" class="w-full h-full object-cover">
+              </div>
+              <div class="font-bold text-gray-800 text-xs truncate">${escapeHTML(v.name)}</div>
+              <div class="text-xs font-black text-emerald-800 mt-0.5">₹${rate} <span class="text-[9px] text-gray-400 font-normal">/ ${unit}</span></div>
             </div>
-            <div class="font-bold text-gray-800 text-xs truncate">${escapeHTML(v.name)}</div>
-            <div class="text-xs font-black text-emerald-800 mt-0.5">₹${rate} <span class="text-[9px] text-gray-400">/ ${unit}</span></div>
-            <button onclick="addVegItem('${escapeHTML(v.name)}', ${rate}, '${unit}')" class="mt-2 w-full bg-emerald-50 text-emerald-800 font-bold py-1.5 rounded-lg text-[11px] border border-emerald-200">+ Add</button>
+            <button onclick="addVegItem('${escapeHTML(v.name)}', ${rate}, '${unit}')" class="mt-2 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold py-1.5 rounded-lg text-[11px] border border-emerald-200 transition">
+              + Add
+            </button>
           </div>
         `;
       }).join("");
     }
 
+    // PICK ITEMS (GRID + SMART STEPPER)
     function renderShopGrid(items) {
       const grid = document.getElementById("veggie-grid");
       if (!items || items.length === 0) return;
@@ -622,9 +703,8 @@
 
         let actionHtml = "";
         if (qty === 0) {
-          actionHtml = `<button onclick="addVegItem('${escapeHTML(itemName)}', ${baseRate}, '${unit}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-1.5 rounded-xl text-xs shadow-sm">+ Add</button>`;
+          actionHtml = `<button onclick="addVegItem('${escapeHTML(itemName)}', ${baseRate}, '${unit}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">+ Add</button>`;
         } else {
-          // Display Formatted Qty
           const formattedQty = getDisplayQty(qty, unit);
           actionHtml = `
             <div class="flex items-center justify-between bg-emerald-50 border border-emerald-300 rounded-xl p-1">
@@ -638,7 +718,7 @@
         return `
           <div class="bg-white border rounded-2xl p-3 shadow-sm flex flex-col justify-between">
             <div>
-              <div class="h-28 rounded-xl overflow-hidden mb-2 bg-gray-50">
+              <div class="h-28 rounded-xl overflow-hidden mb-2 bg-gray-50 flex items-center justify-center">
                 <img src="${img}" loading="lazy" class="w-full h-full object-cover">
               </div>
               <div class="font-extrabold text-gray-900 text-xs truncate">${escapeHTML(itemName)}</div>
@@ -648,6 +728,12 @@
           </div>
         `;
       }).join("");
+    }
+
+    function filterProducts() {
+      const q = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+      const filtered = liveVegetableData.filter(v => (v.name || "").toLowerCase().includes(q));
+      renderShopGrid(filtered);
     }
 
     function addVegItem(name, rate, unit) {
@@ -691,7 +777,7 @@
       if (totalCount > 0) {
         floatBar.classList.remove("hidden");
         document.getElementById("float-cart-items").innerText = `${totalCount} Items`;
-        document.getElementById("float-cart-total").innerText = `₹${grandTotal}`;
+        document.getElementById("float-cart-total").innerText = `₹${grandTotal.toFixed(1)}`;
       } else {
         floatBar.classList.add("hidden");
       }
@@ -704,7 +790,7 @@
       const container = document.getElementById("cart-items-container");
       container.innerHTML = cart.map((item, idx) => {
         let p = (item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty);
-        let displayQty = (item.type === "VEG") ? getDisplayQty(item.qty, item.unit) : `${item.qty} টি`;
+        let displayQty = (item.type === "VEG") ? getDisplayQty(item.qty, item.unit) : `${item.qty} pcs`;
         
         return `
           <div class="flex justify-between items-center bg-gray-50 border p-2.5 rounded-xl text-xs">
@@ -713,7 +799,7 @@
               <div class="text-[11px] text-gray-500 font-bold">${displayQty}</div>
             </div>
             <div class="flex items-center gap-3">
-              <span class="font-black text-emerald-800 text-sm">₹${p}</span>
+              <span class="font-black text-emerald-800 text-sm">₹${p.toFixed(1)}</span>
               <button onclick="removeCartItem(${idx})" class="text-red-500 text-xs"><i class="fa fa-trash"></i></button>
             </div>
           </div>
@@ -723,9 +809,9 @@
       const subtotal = cart.reduce((sum, item) => sum + ((item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty)), 0);
       let deliveryFee = subtotal >= 299 ? 0 : 15;
 
-      document.getElementById("cart-subtotal").innerText = "₹" + subtotal;
+      document.getElementById("cart-subtotal").innerText = "₹" + subtotal.toFixed(1);
       document.getElementById("cart-delivery").innerText = deliveryFee === 0 ? "Free Delivery" : `₹${deliveryFee}`;
-      document.getElementById("cart-grandtotal").innerText = "₹" + (subtotal + deliveryFee);
+      document.getElementById("cart-grandtotal").innerText = "₹" + (subtotal + deliveryFee).toFixed(1);
       document.getElementById("cart-drawer-modal").classList.remove("hidden");
     }
 
@@ -737,25 +823,26 @@
       const container = document.getElementById("review-items-list");
       container.innerHTML = cart.map(item => {
         let p = (item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty);
-        let displayQty = (item.type === "VEG") ? getDisplayQty(item.qty, item.unit) : `${item.qty} টি`;
+        let displayQty = (item.type === "VEG") ? getDisplayQty(item.qty, item.unit) : `${item.qty} pcs`;
         return `
           <div class="flex justify-between items-center bg-gray-50 border p-2.5 rounded-xl text-xs">
             <div>
               <span class="font-bold text-gray-800">${escapeHTML(item.title)}</span>
               <span class="text-[11px] text-gray-500 block">Qty: ${displayQty}</span>
             </div>
-            <span class="font-black text-emerald-800">₹${p}</span>
+            <span class="font-black text-emerald-800">₹${p.toFixed(1)}</span>
           </div>
         `;
       }).join("");
 
       const subtotal = cart.reduce((sum, item) => sum + ((item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty)), 0);
       let deliveryFee = subtotal >= 299 ? 0 : 15;
-      document.getElementById("review-subtotal").innerText = "₹" + subtotal;
+      document.getElementById("review-subtotal").innerText = "₹" + subtotal.toFixed(1);
       document.getElementById("review-delivery").innerText = deliveryFee === 0 ? "Free" : `₹${deliveryFee}`;
-      document.getElementById("review-grandtotal").innerText = "₹" + (subtotal + deliveryFee);
+      document.getElementById("review-grandtotal").innerText = "₹" + (subtotal + deliveryFee).toFixed(1);
     }
 
+    // MARKET RATE VISUAL CARDS IN "MARKET RATE" TAB
     function renderMarketRateTable(items) {
       const container = document.getElementById("market-rate-rows");
       container.innerHTML = items.map(v => {
@@ -768,7 +855,7 @@
 
         return `
           <div class="bg-white border rounded-2xl p-4 shadow-sm flex items-center gap-3.5 hover:shadow-md transition">
-            <div class="w-14 h-14 rounded-xl overflow-hidden bg-gray-50 shrink-0">
+            <div class="w-14 h-14 rounded-xl overflow-hidden bg-white border shrink-0 flex items-center justify-center p-1">
               <img src="${getImageForVeg(v.name)}" loading="lazy" class="w-full h-full object-cover">
             </div>
             <div class="flex-1">
@@ -784,6 +871,113 @@
           </div>
         `;
       }).join("");
+    }
+
+    function captureCustomerLocation() {
+      const statusDiv = document.getElementById("location-status");
+      if (!navigator.geolocation) {
+        alert("Geolocation not supported");
+        return;
+      }
+      statusDiv.innerHTML = `<i class="fa fa-spinner fa-spin text-emerald-700"></i> Locating...`;
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          document.getElementById("custLat").value = pos.coords.latitude;
+          document.getElementById("custLng").value = pos.coords.longitude;
+          statusDiv.innerHTML = `<span class="text-emerald-700 font-bold">📍 Location Captured ✓</span>`;
+        },
+        function(err) {
+          statusDiv.innerHTML = `<span class="text-red-600 font-bold">⚠️ Permission denied. Enter manually.</span>`;
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+
+    async function submitOrder(e) {
+      e.preventDefault();
+      const phone = document.getElementById("custPhone").value.trim();
+      if (!/^\d{10}$/.test(phone)) {
+        document.getElementById("phoneError").classList.remove("hidden");
+        return;
+      }
+      document.getElementById("phoneError").classList.add("hidden");
+
+      const userProfile = {
+        name: document.getElementById("custName").value.trim(),
+        phone: phone,
+        area: document.getElementById("custArea").value,
+        address: document.getElementById("custAddress").value.trim()
+      };
+      localStorage.setItem("tb_user", JSON.stringify(userProfile));
+
+      const now = new Date();
+      const orderId = "TB-" + now.getFullYear() + String(now.getMonth() + 1).padStart(2, "0") + String(now.getDate()).padStart(2, "0") + "-" + String(now.getHours()).padStart(2, "0") + String(now.getMinutes()).padStart(2, "0");
+      const subtotal = cart.reduce((sum, item) => sum + ((item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty)), 0);
+      let deliveryFee = subtotal >= 299 ? 0 : 15;
+      const grandTotal = subtotal + deliveryFee;
+      const itemsSummary = cart.map(i => `${i.title} (${i.qty})`).join(", ");
+
+      const orderData = {
+        orderId: orderId,
+        name: userProfile.name,
+        phone: userProfile.phone,
+        address: userProfile.address,
+        itemsSummary: itemsSummary,
+        totalAmount: grandTotal,
+        status: "Order Confirmed"
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(orderData)
+        });
+      } catch (error) {}
+
+      alert(`🎉 Congratulations! Order placed successfully. Order ID: ${orderId}`);
+      cart = [];
+      updateCartUI();
+      switchTab("myorders");
+    }
+
+    async function renderOrders() {
+      const list = document.getElementById("orders-list");
+      const phoneInput = document.getElementById("trackPhoneInput");
+      const phone = phoneInput ? phoneInput.value.trim() : "";
+      if (!phone) {
+        list.innerHTML = `<div class="text-center py-8 text-xs text-gray-400">Search with your 10-digit mobile number</div>`;
+        return;
+      }
+      list.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">Loading orders...</div>`;
+      try {
+        const res = await fetch(`${SCRIPT_URL}?action=getOrders&phone=${phone}&_t=${Date.now()}`);
+        const data = await res.json();
+        if (data.status === "success" && Array.isArray(data.orders) && data.orders.length > 0) {
+          list.innerHTML = data.orders.map(ord => `
+            <div class="bg-white border rounded-2xl p-4 shadow-sm space-y-2 text-xs">
+              <div class="flex justify-between items-center border-b pb-2">
+                <span class="font-extrabold text-gray-900">${escapeHTML(ord.orderId)}</span>
+                <span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">${escapeHTML(ord.status)}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-bold text-gray-700">${escapeHTML(ord.itemsSummary)}</span>
+                <span class="font-black text-emerald-800">₹${ord.totalAmount}</span>
+              </div>
+            </div>
+          `).join("");
+        } else {
+          list.innerHTML = `<div class="text-center py-8 text-xs text-gray-400">No orders found for this number.</div>`;
+        }
+      } catch (e) {
+        list.innerHTML = `<div class="text-center py-8 text-xs text-gray-400">Failed to load orders.</div>`;
+      }
+    }
+
+    function clearSavedData() {
+      localStorage.removeItem("tb_user");
+      alert("Profile cleared");
     }
   </script>
 </body>
