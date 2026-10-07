@@ -72,7 +72,7 @@
   </header>
 
   <!-- LIVE 9:30 PM - 10:00 PM RUSH ALARM BANNER -->
-  <div id="rush-countdown-bar" class="hidden bg-gradient-to-r from-red-600 via-rose-600 to-amber-600text-white p-3 shadow-lg rush-pulse">
+  <div id="rush-countdown-bar" class="hidden bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white p-3 shadow-lg rush-pulse">
     <div class="max-w-6xl mx-auto flex items-center justify-between gap-3 text-xs md:text-sm font-black font-['Hind_Siliguri']">
       <div class="flex items-center gap-2">
         <i class="fa fa-triangle-exclamation text-yellow-300 text-base"></i>
@@ -131,7 +131,7 @@
       </div>
     </div>
 
-    <!-- REALISTIC HIGHLIGHTS SECTION (REPLACED SHOP BY NEED) -->
+    <!-- REALISTIC HIGHLIGHTS SECTION -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
       <div class="bg-white border rounded-2xl p-4 shadow-sm text-center space-y-1.5">
         <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-base">
@@ -173,7 +173,7 @@
         <button onclick="switchTab('baskets')" class="text-xs text-emerald-700 font-bold hover:underline">View All &rarr;</button>
       </div>
       <div id="home-baskets-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div class="col-span-full py-8 text-center text-gray-400 text-xs">Loading baskets from Google Sheet...</div>
+        <div class="col-span-full py-8 text-center text-gray-400 text-xs">Loading baskets...</div>
       </div>
     </div>
 
@@ -220,7 +220,7 @@
           </thead>
           <tbody id="home-market-rate-table-body" class="divide-y divide-gray-100">
             <tr>
-              <td colspan="5" class="text-center py-6 text-gray-400">Loading live mandi rates from Google Sheet...</td>
+              <td colspan="5" class="text-center py-6 text-gray-400">Loading live mandi rates...</td>
             </tr>
           </tbody>
         </table>
@@ -236,7 +236,7 @@
       <p class="text-xs text-gray-500 font-['Hind_Siliguri']">Fresh vegetables picked from Market and delivered tomorrow morning.</p>
     </div>
     <div id="baskets-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading baskets from Google Sheet...</div>
+      <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading baskets...</div>
     </div>
   </section>
 
@@ -252,7 +252,7 @@
       <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Sobji khujun (jemon: alu, peyaj, tomato)..." class="w-full bg-white border border-gray-300 pl-10 pr-4 py-2.5 rounded-xl text-xs outline-none focus:border-emerald-600 shadow-sm">
     </div>
     <div id="veggie-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
-      <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading vegetables from Google Sheet...</div>
+      <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading vegetables...</div>
     </div>
   </section>
 
@@ -327,12 +327,16 @@
           <div>
             <label class="block font-bold text-gray-700 mb-1">Delivery Area (5 KM Hub) <span class="text-red-500">*</span></label>
             <select id="custArea" required onchange="onAreaSelected()" class="w-full border p-2.5 rounded-xl bg-white outline-none font-bold text-emerald-800">
-              <option value="">Loading Areas from Admin Panel...</option>
+              <option value="">Select Delivery Area...</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-gray-700 mb-1">House/Flat No & Landmark <span class="text-red-500">*</span></label>
-            <textarea id="custAddress" required rows="2" placeholder="House no, Street, Landmark" class="w-full border p-2.5 rounded-xl outline-none"></textarea>
+            <label class="block font-bold text-gray-700 mb-1">House / Flat No & Street <span class="text-red-500">*</span></label>
+            <input type="text" id="custAddress" required placeholder="House no, Building name, Street" class="w-full border p-2.5 rounded-xl outline-none text-xs">
+          </div>
+          <div>
+            <label class="block font-bold text-gray-700 mb-1">Landmark (Nearby) <span class="text-gray-400 font-normal">(Optional)</span></label>
+            <input type="text" id="custLandmark" placeholder="Jemon: Mandir er pashe, Club goli" class="w-full border p-2.5 rounded-xl outline-none text-xs">
           </div>
 
           <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl space-y-2">
@@ -364,7 +368,7 @@
       <p class="text-xs text-gray-500 font-['Hind_Siliguri']">Wholesale mandi daily rates & price comparison transparency</p>
     </div>
     <div id="market-rate-rows" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-      <div class="col-span-full py-8 text-center text-gray-400 text-xs">Syncing rates from Google Sheet...</div>
+      <div class="col-span-full py-8 text-center text-gray-400 text-xs">Syncing rates...</div>
     </div>
   </section>
 
@@ -642,6 +646,7 @@
       return baseRate * qty;
     }
 
+    // INSTANT LOAD WITH CACHE FIRST & BACKGROUND SYNC
     window.addEventListener("load", function () {
       loadUserProfile();
       loadCachedData();
@@ -765,7 +770,7 @@
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Radius of the earth in km
+      const R = 6371;
       const dLat = deg2rad(lat2 - lat1);
       const dLon = deg2rad(lon2 - lon1);
       const a = 
@@ -773,7 +778,7 @@
         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
         Math.sin(dLon/2) * Math.sin(dLon/2); 
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-      return R * c; // Distance in km
+      return R * c;
     }
 
     function deg2rad(deg) {
@@ -805,12 +810,11 @@
           const userLat = pos.coords.latitude;
           const userLng = pos.coords.longitude;
 
-          // If hub coordinates are not set in sheet yet, allow fallback or test
           if (centerLat === 0 || centerLng === 0) {
             document.getElementById("custLat").value = userLat;
             document.getElementById("custLng").value = userLng;
             document.getElementById("googleMapsLink").value = `https://maps.google.com/?q=${userLat},${userLng}`;
-            statusDiv.innerHTML = `<span class="text-emerald-700 font-bold">📍 GPS Captured ✓ (Distance check bypassed - Hub coords missing)</span>`;
+            statusDiv.innerHTML = `<span class="text-emerald-700 font-bold">📍 GPS Captured ✓</span>`;
             return;
           }
 
@@ -825,7 +829,7 @@
             document.getElementById("custLat").value = "";
             document.getElementById("custLng").value = "";
             document.getElementById("googleMapsLink").value = "";
-            statusDiv.innerHTML = `<span class="text-red-600 font-bold">❌ Sorry! Your current location is ${dist.toFixed(1)} KM away (Outside 5 KM delivery area).</span>`;
+            statusDiv.innerHTML = `<span class="text-red-600 font-bold">❌ Outside 5 KM delivery area (${dist.toFixed(1)} KM).</span>`;
             alert(`❌ Sorry! Your current location is outside our 5 KM delivery area (${dist.toFixed(1)} KM).`);
           }
         },
@@ -929,7 +933,7 @@
       container.innerHTML = items.slice(0, 6).map(function (v) {
         const rate = v.todayRate ? Number(v.todayRate) : 0;
         const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
-        const img = v.img && String(v.img).startsWith("http") ? v.img : getImageForVeg(v.name);
+        const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
 
         return `
           <div class="bg-white border rounded-2xl p-2.5 shadow-sm flex flex-col justify-between">
@@ -966,7 +970,8 @@
         } else if (diff > 0) {
           trendHtml = `<span class="text-red-600 font-black text-xs flex items-center justify-end gap-1"><i class="fa fa-arrow-up text-[10px]"></i> ₹${diff} bereche</span>`;
         }
-        const img = getImageForVeg(v.name);
+        
+        const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
 
         return `
           <tr class="hover:bg-emerald-50/40 transition cursor-pointer" onclick="switchTab('rates')">
@@ -999,7 +1004,8 @@
         } else if (diff > 0) {
           trendHtml = `<span class="text-red-500 font-bold text-[10px]">↑ ₹${diff} bereche</span>`;
         }
-        const img = getImageForVeg(v.name);
+        
+        const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
         const unit = v.unit || "KG";
 
         return `
@@ -1032,7 +1038,7 @@
       grid.innerHTML = items.map(function (v) {
         const baseRate = v.todayRate ? Number(v.todayRate) : 0;
         const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
-        const img = getImageForVeg(v.name);
+        const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
         const itemName = String(v.name || "").trim();
 
         const cartItem = cart.find(i => i.title === itemName);
@@ -1040,7 +1046,7 @@
 
         let actionHtml = "";
         if (baseRate === 0) {
-          actionHtml = `<button disabled class="w-full bg-gray-200 text-gray-400 font-bold py-1.5 rounded-xl text-xs cursor-not-allowed">Aaj arate nei</button>`;
+          actionHtml = `<button disabled class="w-full bg-gray-200 text-gray-400 font-bold py-1.5 rounded-xl text-xs cursor-not-allowed">Out of Stock</button>`;
         } else if (qty === 0) {
           actionHtml = `<button onclick="addVegItem('${escapeHTML(itemName)}', ${baseRate}, '${unit}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">+ Add</button>`;
         } else {
@@ -1251,6 +1257,7 @@
         phone: phone,
         area: document.getElementById("custArea").value,
         address: document.getElementById("custAddress").value.trim(),
+        landmark: document.getElementById("custLandmark").value.trim(),
         slot: document.getElementById("custSlot").value
       };
       localStorage.setItem("tb_user", JSON.stringify(userProfile));
@@ -1269,7 +1276,9 @@
       }).join(", ");
 
       const mapsLink = document.getElementById("googleMapsLink").value || "";
-      const finalAddress = `${userProfile.address} [Area: ${userProfile.area}]`;
+      const addressVal = userProfile.address;
+      const landmarkVal = userProfile.landmark;
+      const finalAddress = `${addressVal}${landmarkVal ? ' (Landmark: ' + landmarkVal + ')' : ''} [Area: ${userProfile.area}]`;
 
       const orderData = {
         orderId: orderId,
@@ -1336,7 +1345,7 @@
         return;
       }
 
-      list.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">Loading orders from Google Sheet...</div>`;
+      list.innerHTML = `<div class="text-center py-6 text-gray-400 text-xs">Loading orders...</div>`;
 
       try {
         const res = await fetch(`${SCRIPT_URL}?action=getOrders&phone=${phone}&_t=${Date.now()}`);
@@ -1442,6 +1451,7 @@
           document.getElementById("trackPhoneInput").value = savedUser.phone;
         }
         if (savedUser.address) document.getElementById("custAddress").value = savedUser.address;
+        if (savedUser.landmark) document.getElementById("custLandmark").value = savedUser.landmark;
         if (savedUser.area) document.getElementById("custArea").value = savedUser.area;
       } catch (e) {}
     }
