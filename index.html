@@ -2,15 +2,23 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Tomorrow Basket | Mandi Fresh Veggies Durgapur</title>
+  
+  <!-- PWA & Mobile Optimization Tags -->
+  <meta name="theme-color" content="#064e3b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <style>
-    body { font-family: 'Inter', 'Hind Siliguri', sans-serif; }
+    body { font-family: 'Inter', 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }
     .active-tab { color: #16a34a; font-weight: bold; border-top: 2px solid #16a34a; }
     .custom-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
     .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
@@ -19,9 +27,11 @@
       50% { opacity: 0.95; transform: scale(0.995); }
     }
     .rush-pulse { animation: pulse-slow 1.5s infinite ease-in-out; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800 pb-28 md:pb-16 antialiased">
+<body class="bg-gray-50 text-gray-800 pb-28 md:pb-16 antialiased selection:bg-emerald-200">
 
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="fixed top-16 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
@@ -46,7 +56,7 @@
   <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between gap-3">
       <div class="flex items-center gap-2 cursor-pointer" onclick="handleLogoClick()">
-        <div class="w-9 h-9 bg-emerald-700 text-white flex items-center justify-center rounded-lg font-black text-lg shadow-sm">
+        <div class="w-9 h-9 bg-emerald-700 text-white flex items-center justify-center rounded-xl font-black text-lg shadow-sm">
           TB
         </div>
         <div>
@@ -63,7 +73,7 @@
         <button onclick="switchTab('myorders')" id="nav-myorders" class="hover:text-emerald-700 transition">My Orders</button>
       </nav>
 
-      <button onclick="openCartDrawer()" class="bg-emerald-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-emerald-800 transition shadow">
+      <button onclick="openCartDrawer()" class="bg-emerald-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-emerald-800 transition shadow">
         <i class="fa fa-basket-shopping text-sm"></i>
         <span>Basket</span>
         <span id="cart-count" class="bg-yellow-400 text-gray-900 text-[10px] px-1.5 py-0.2 rounded-full font-black">0</span>
@@ -240,17 +250,30 @@
     </div>
   </section>
 
-  <!-- TAB 3: PICK ITEMS -->
+  <!-- TAB 3: PICK ITEMS (SHOP VEGETABLES WITH CATEGORY PILLS) -->
   <section id="view-shop" class="max-w-6xl mx-auto px-4 py-4 space-y-5 hidden">
     <div class="border-b pb-3 space-y-1">
       <h2 class="font-extrabold text-2xl text-gray-900 font-['Hind_Siliguri']">Pick Your Items</h2>
       <p class="text-xs text-gray-500 font-['Hind_Siliguri']">Choose the vegetables you need. We’ll pick them fresh from Market for tomorrow morning.</p>
     </div>
 
-    <div class="relative">
-      <i class="fa fa-search absolute left-3.5 top-3 text-gray-400 text-sm"></i>
-      <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Sobji khujun (jemon: alu, peyaj, tomato)..." class="w-full bg-white border border-gray-300 pl-10 pr-4 py-2.5 rounded-xl text-xs outline-none focus:border-emerald-600 shadow-sm">
+    <!-- SEARCH & CATEGORY PILLS -->
+    <div class="space-y-3">
+      <div class="relative">
+        <i class="fa fa-search absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Sobji khujun (jemon: alu, peyaj, tomato)..." class="w-full bg-white border border-gray-300 pl-10 pr-4 py-2.5 rounded-xl text-xs outline-none focus:border-emerald-600 shadow-sm">
+      </div>
+
+      <!-- CATEGORY BADGES -->
+      <div class="flex gap-2 overflow-x-auto hide-scrollbar py-1">
+        <button onclick="setCategoryFilter('all')" id="cat-all" class="category-pill-btn bg-emerald-700 text-white text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap shadow-sm transition">All</button>
+        <button onclick="setCategoryFilter('daily')" id="cat-daily" class="category-pill-btn bg-white border border-gray-200 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100 transition">Daily Essentials</button>
+        <button onclick="setCategoryFilter('leafy')" id="cat-leafy" class="category-pill-btn bg-white border border-gray-200 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100 transition">Leafy / Shak</button>
+        <button onclick="setCategoryFilter('root')" id="cat-root" class="category-pill-btn bg-white border border-gray-200 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100 transition">Root Veggies</button>
+        <button onclick="setCategoryFilter('green')" id="cat-green" class="category-pill-btn bg-white border border-gray-200 text-gray-700 text-xs font-bold px-4 py-1.5 rounded-full whitespace-nowrap hover:bg-gray-100 transition">Green Veggies</button>
+      </div>
     </div>
+
     <div id="veggie-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
       <div class="col-span-full py-10 text-center text-gray-400 text-xs">Loading vegetables...</div>
     </div>
@@ -302,7 +325,7 @@
       <div class="bg-white border rounded-2xl p-5 shadow-sm space-y-4">
         <h3 class="font-bold text-sm text-gray-800 border-b pb-2 flex items-center gap-2">
           <i class="fa fa-location-dot text-emerald-700"></i>
-          <span>Delivery Address & Geofencing</span>
+          <span>Delivery Address </span>
         </h3>
         <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-3 text-xs">
           <div>
@@ -469,16 +492,21 @@
     </div>
   </div>
 
-  <!-- ORDER DETAIL MODAL -->
+  <!-- ORDER DETAIL MODAL (WITH LIVE STEPPING TRACKING TIMELINE) -->
   <div id="order-detail-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden p-4 backdrop-blur-sm">
     <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4 relative max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b pb-3">
         <div>
-          <h3 class="font-black text-base text-gray-900 font-['Hind_Siliguri']">Order Full Details</h3>
-          <span id="popup-order-id" class="text-[11px] text-emerald-700 font-bold"></span>
+          <h3 class="font-black text-base text-gray-900 font-['Hind_Siliguri'] flex items-center gap-2">
+            <span>Order Tracking</span>
+          </h3>
+          <span id="popup-order-id" class="text-xs text-emerald-800 font-black"></span>
         </div>
         <button onclick="closeOrderDetailModal()" class="text-gray-400 hover:text-gray-700 text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-full">×</button>
       </div>
+
+      <!-- STEP PROGRESS TIMELINE CONTAINER -->
+      <div id="tracking-timeline-container" class="bg-gray-50 p-4 rounded-2xl border border-gray-100"></div>
 
       <div id="order-detail-body" class="space-y-3 text-xs text-gray-700"></div>
 
@@ -493,11 +521,11 @@
     </div>
   </div>
 
-  <!-- MOBILE BOTTOM NAV BAR -->
+  <!-- MOBILE BOTTOM NAV BAR (APP VIEW) -->
   <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-2 z-40 text-center text-[10px] text-gray-500 shadow-lg">
     <button onclick="switchTab('home')" id="tab-btn-home" class="flex flex-col items-center active-tab w-1/5"><i class="fa fa-house text-base"></i><span class="mt-0.5">Home</span></button>
     <button onclick="switchTab('baskets')" id="tab-btn-baskets" class="flex flex-col items-center w-1/5"><i class="fa fa-layer-group text-base"></i><span class="mt-0.5">Baskets</span></button>
-    <button onclick="switchTab('shop')" id="tab-btn-shop" class="flex flex-col items-center w-1/5"><i class="fa fa-carrot text-base"></i><span class="mt-0.5">Pick Items</span></button>
+    <button onclick="switchTab('shop')" id="tab-btn-shop" class="flex flex-col items-center w-1/5"><i class="fa fa-carrot text-base"></i><span class="mt-0.5">Shop</span></button>
     <button onclick="switchTab('rates')" id="tab-btn-rates" class="flex flex-col items-center w-1/5"><i class="fa fa-chart-line text-base"></i><span class="mt-0.5">Rates</span></button>
     <button onclick="switchTab('myorders')" id="tab-btn-myorders" class="flex flex-col items-center w-1/5"><i class="fa fa-receipt text-base"></i><span class="mt-0.5">Orders</span></button>
   </div>
@@ -512,6 +540,7 @@
     let liveVegetableData = [];
     let liveAreasData = [];
     let cachedOrdersList = [];
+    let activeCategory = "all";
 
     const customBasketImages = ["basket1.png", "basket2.png", "basket3.png"];
     const basketDefaultImgs = [
@@ -840,7 +869,7 @@
       );
     }
 
-    // HOME PAGE: MAX 3 BASKETS
+    // HOME SCREEN BASKETS (WITH LIVE CORNER BADGE & MANDI FRESH BADGE)
     function renderHomeBaskets(baskets) {
       const grid = document.getElementById("home-baskets-grid");
       if (!baskets || baskets.length === 0) return;
@@ -851,13 +880,23 @@
         const approx = b.approx || "";
         const img = (b.img && String(b.img).startsWith("http")) ? b.img : customBasketImages[idx % customBasketImages.length];
         const fallback = basketDefaultImgs[idx % basketDefaultImgs.length];
-        const deliveryText = delFee > 0 ? `+ ₹${delFee} Del Fee` : `Free Delivery`;
+
+        // Live Delivery Corner Badge
+        const delCornerBadge = delFee === 0 
+          ? `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">🚚 FREE DELIVERY</span>`
+          : `<span class="absolute top-3 right-3 bg-black/75 backdrop-blur-sm text-yellow-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">+ ₹${delFee} Delivery</span>`;
+
+        const deliveryBottomText = delFee > 0 ? `+ ₹${delFee} Del Fee` : `Free Delivery`;
 
         return `
-          <div class="bg-white border rounded-2xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between cursor-pointer group" onclick="switchTab('baskets')">
+          <div class="bg-white border rounded-3xl p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between cursor-pointer group" onclick="switchTab('baskets')">
             <div>
-              <div class="h-48 sm:h-52 rounded-xl overflow-hidden mb-3 bg-gray-50 flex items-center justify-center">
+              <div class="h-48 sm:h-52 rounded-2xl overflow-hidden mb-3 bg-gray-50 flex items-center justify-center relative">
                 <img src="${img}" onerror="this.onerror=null; this.src='${fallback}'" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" alt="${escapeHTML(b.name)}">
+                <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  Mandi Fresh
+                </span>
+                ${delCornerBadge}
               </div>
               <div class="flex justify-between items-center mb-1">
                 <h4 class="font-extrabold text-base text-gray-900">${escapeHTML(b.name)}</h4>
@@ -868,7 +907,7 @@
             <div class="pt-2 border-t flex items-center justify-between">
               <div>
                 <span class="text-base font-black text-gray-900">₹${price}</span>
-                <span class="text-[10px] text-gray-400 block">${deliveryText}</span>
+                <span class="text-[10px] text-gray-400 block">${deliveryBottomText}</span>
               </div>
               <button onclick="event.stopPropagation(); addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow flex items-center gap-1">
                 <span>+ Add</span>
@@ -879,8 +918,8 @@
       }).join("");
     }
 
-    // CHOOSE BASKET SCREEN: MAX 3 BASKETS
-   function renderComboBaskets(baskets) {
+    // CHOOSE BASKET SCREEN (NO SCROLLBAR + LIVE CORNER BADGE)
+    function renderComboBaskets(baskets) {
       const grid = document.getElementById("baskets-grid");
       if (!baskets || baskets.length === 0) return;
 
@@ -891,6 +930,11 @@
         const desc = escapeHTML(b.desc || "");
         const img = (b.img && String(b.img).startsWith("http")) ? b.img : customBasketImages[idx % customBasketImages.length];
         const fallback = basketDefaultImgs[idx % basketDefaultImgs.length];
+
+        // Live Delivery Corner Badge
+        const delCornerBadge = delFee === 0 
+          ? `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">🚚 FREE DELIVERY</span>`
+          : `<span class="absolute top-3 right-3 bg-black/75 backdrop-blur-sm text-yellow-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">+ ₹${delFee} Delivery</span>`;
 
         let itemsHtml = "";
         if (b.items) {
@@ -912,6 +956,7 @@
                 <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                   Mandi Fresh
                 </span>
+                ${delCornerBadge}
               </div>
               <div class="flex justify-between items-start mb-1">
                 <h3 class="font-black text-lg text-gray-900 font-['Hind_Siliguri']">${escapeHTML(b.name)}</h3>
@@ -923,13 +968,14 @@
                 <div class="text-[11px] font-extrabold text-emerald-800 uppercase tracking-wide font-['Hind_Siliguri']">
                   ✨ আজকের Basket Contents:
                 </div>
-                <div class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto custom-scroll pr-1">
+                <!-- NO SCROLLBAR: All badges displayed cleanly in full card -->
+                <div class="flex flex-wrap gap-1.5 pt-1">
                   ${itemsHtml || '<span class="text-xs text-gray-400">Not specified</span>'}
                 </div>
               </div>
             </div>
             
-            <button onclick="addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-2xl text-xs transition shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wider">
+            <button onclick="addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-2xl text-xs transition shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wider mt-2">
               <span>${buttonText}</span>
             </button>
           </div>
@@ -965,6 +1011,7 @@
       }).join("");
     }
 
+    // HOME MARKET RATE TABLE (GREEN UP / RED DOWN BADGES)
     function renderHomeMarketRateTable(items) {
       const tbody = document.getElementById("home-market-rate-table-body");
       if (!tbody || !items || items.length === 0) return;
@@ -975,11 +1022,11 @@
         const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
         let diff = today - yesterday;
         
-        let trendHtml = `<span class="text-gray-400 font-bold text-xs">= SAME</span>`;
-        if (diff < 0) {
-          trendHtml = `<span class="text-emerald-700 font-black text-xs flex items-center justify-end gap-1"><i class="fa fa-arrow-down text-[10px]"></i> ₹${Math.abs(diff)} komese</span>`;
-        } else if (diff > 0) {
-          trendHtml = `<span class="text-red-600 font-black text-xs flex items-center justify-end gap-1"><i class="fa fa-arrow-up text-[10px]"></i> ₹${diff} bereche</span>`;
+        let trendHtml = `<span class="text-gray-500 font-bold text-[11px] px-2.5 py-1 rounded-full bg-gray-100">= SAME</span>`;
+        if (diff > 0) {
+          trendHtml = `<span class="bg-emerald-100 text-emerald-800 font-black text-[11px] px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm">▲ UP ₹${diff}</span>`;
+        } else if (diff < 0) {
+          trendHtml = `<span class="bg-red-100 text-red-700 font-black text-[11px] px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm">▼ DOWN ₹${Math.abs(diff)}</span>`;
         }
         
         const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
@@ -1010,10 +1057,10 @@
         const yesterday = Number(v.yesterdayRate) || today;
         let diff = today - yesterday;
         let trendHtml = `<span class="text-gray-400 font-bold text-[10px]">— Stable</span>`;
-        if (diff < 0) {
-          trendHtml = `<span class="text-emerald-700 font-bold text-[10px]">↓ ₹${Math.abs(diff)} komese</span>`;
-        } else if (diff > 0) {
-          trendHtml = `<span class="text-red-500 font-bold text-[10px]">↑ ₹${diff} bereche</span>`;
+        if (diff > 0) {
+          trendHtml = `<span class="bg-emerald-100 text-emerald-800 font-bold text-[10px] px-2 py-0.5 rounded-full">▲ UP ₹${diff}</span>`;
+        } else if (diff < 0) {
+          trendHtml = `<span class="bg-red-100 text-red-700 font-bold text-[10px] px-2 py-0.5 rounded-full">▼ DOWN ₹${Math.abs(diff)}</span>`;
         }
         
         const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
@@ -1037,6 +1084,23 @@
           </div>
         `;
       }).join("");
+    }
+
+    // CATEGORY FILTER LOGIC
+    function setCategoryFilter(category) {
+      activeCategory = category;
+      document.querySelectorAll('.category-pill-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-700', 'text-white', 'shadow-sm');
+        btn.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+      });
+
+      const activeBtn = document.getElementById('cat-' + category);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+        activeBtn.classList.add('bg-emerald-700', 'text-white', 'shadow-sm');
+      }
+
+      filterProducts();
     }
 
     function renderShopGrid(items) {
@@ -1072,7 +1136,7 @@
         }
 
         return `
-          <div class="bg-white border rounded-2xl p-3 shadow-sm flex flex-col justify-between">
+          <div class="bg-white border rounded-2xl p-3 shadow-sm flex flex-col justify-between hover:shadow transition">
             <div>
               <div class="h-28 rounded-xl overflow-hidden mb-2 bg-gray-50 flex items-center justify-center">
                 <img src="${img}" loading="lazy" class="w-full h-full object-cover">
@@ -1159,7 +1223,7 @@
         floatBar.classList.add("hidden");
       }
       
-      if (!document.getElementById("view-shop").classList.contains("hidden")) renderShopGrid(liveVegetableData);
+      if (!document.getElementById("view-shop").classList.contains("hidden")) filterProducts();
     }
 
     function openCartDrawer() {
@@ -1237,10 +1301,29 @@
 
     function filterProducts() {
       const q = (document.getElementById("searchInput").value || "").toLowerCase().trim();
-      const filtered = liveVegetableData.filter(v => (v.name || "").toLowerCase().includes(q));
+      let filtered = liveVegetableData;
+
+      // Category matching
+      if (activeCategory !== "all") {
+        filtered = filtered.filter(v => {
+          const name = (v.name || "").toLowerCase();
+          const cat = (v.category || "").toLowerCase();
+          if (activeCategory === "daily") return name.includes("alu") || name.includes("potato") || name.includes("onion") || name.includes("peyaj") || name.includes("tomato");
+          if (activeCategory === "leafy") return cat.includes("shak") || cat.includes("leaf") || name.includes("shak") || name.includes("palong") || name.includes("dhone");
+          if (activeCategory === "root") return cat.includes("root") || name.includes("alu") || name.includes("potato") || name.includes("gajor") || name.includes("mulo") || name.includes("beet");
+          if (activeCategory === "green") return cat.includes("green") || name.includes("chilli") || name.includes("lanka") || name.includes("kopi") || name.includes("begun") || name.includes("brinjal");
+          return true;
+        });
+      }
+
+      if (q) {
+        filtered = filtered.filter(v => (v.name || "").toLowerCase().includes(q));
+      }
+
       renderShopGrid(filtered);
     }
 
+    // ORDER SUBMIT WITH STRUCTURED ITEMS_LIST FOR ORDER_ITEMS SHEET
     async function submitOrder(e) {
       e.preventDefault();
       
@@ -1291,6 +1374,25 @@
       const landmarkVal = userProfile.landmark;
       const finalAddress = `${addressVal}${landmarkVal ? ' (Landmark: ' + landmarkVal + ')' : ''} [Area: ${userProfile.area}]`;
 
+      // ITEM-BY-ITEM LIST FOR ORDER_ITEMS SHEET
+      const structuredItems = cart.map(item => {
+        let p = (item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty);
+        let u = item.unit || "PCS";
+        let q = item.qty;
+        if (item.type === "VEG") {
+          let uUpper = String(u).toUpperCase();
+          if (uUpper === 'GRAM' || uUpper === 'GM') q = item.qty * 100;
+          else if (uUpper === 'KG') q = item.qty * 0.5;
+        }
+        return {
+          title: item.title,
+          type: item.type || "VEG",
+          qty: q,
+          unit: u,
+          totalPrice: Number(p).toFixed(1)
+        };
+      });
+
       const orderData = {
         orderId: orderId,
         name: userProfile.name,
@@ -1299,6 +1401,7 @@
         address: finalAddress,
         slot: userProfile.slot,
         itemsSummary: itemsSummary,
+        itemsList: structuredItems,
         totalAmount: grandTotal.toFixed(1),
         status: "Order Confirmed",
         googleMapsLink: mapsLink
@@ -1367,7 +1470,7 @@
             date: o.timestamp || "",
             basket: o.itemsSummary,
             amount: o.totalAmount,
-            status: o.status,
+            status: o.status || "Order Confirmed",
             slot: o.slot || "Tomorrow 7 AM - 9 AM",
             address: o.address || "",
             phone: o.phone || phone,
@@ -1401,15 +1504,56 @@
               <span class="font-extrabold text-gray-900">${escapeHTML(ord.orderId)}</span>
               <span class="text-[10px] text-gray-400 block">${escapeHTML(ord.date || ord.timestamp || "")}</span>
             </div>
-            <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded text-[11px]">${escapeHTML(ord.status)}</span>
+            <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full text-[11px]">${escapeHTML(ord.status)}</span>
           </div>
           <div class="flex justify-between items-center">
             <span class="font-bold text-gray-700 truncate max-w-[220px]">${escapeHTML(ord.basket || ord.itemsSummary)}</span>
             <span class="font-black text-emerald-800 text-sm">₹${ord.amount || ord.totalAmount}</span>
           </div>
-          <div class="text-[10px] text-emerald-700 font-bold text-right">Details dekhte click korun &rarr;</div>
+          <div class="text-[10px] text-emerald-700 font-bold text-right flex items-center justify-end gap-1">
+            <span>Track Status</span> &rarr;
+          </div>
         </div>
       `).join("");
+    }
+
+    // RENDER VISUAL TIMELINE PROGRESS BAR
+    function renderTrackingPipeline(currentStatus) {
+      const s = String(currentStatus || "").toLowerCase();
+      let step = 1;
+      if (s.includes("delivered") || s.includes("paid")) step = 4;
+      else if (s.includes("out for delivery")) step = 3;
+      else if (s.includes("pack")) step = 2;
+      else step = 1;
+
+      const steps = [
+        { label: "Confirmed", icon: "fa-check", desc: "Order Booked" },
+        { label: "Packed", icon: "fa-box", desc: "Fresh Sorted" },
+        { label: "Out for Delivery", icon: "fa-motorcycle", desc: "On the way" },
+        { label: "Delivered", icon: "fa-house-chimney", desc: "Delivered" }
+      ];
+
+      return `
+        <div class="py-2">
+          <div class="flex items-center justify-between relative mb-2">
+            <div class="absolute left-4 right-4 top-1/2 -translate-y-1/2 h-1 bg-gray-200 -z-0"></div>
+            <div class="absolute left-4 top-1/2 -translate-y-1/2 h-1 bg-emerald-600 transition-all duration-500 -z-0" style="width: ${((step - 1) / 3) * 100}%"></div>
+            
+            ${steps.map((st, i) => {
+              const isDone = (i + 1) <= step;
+              const isCurrent = (i + 1) === step;
+              return `
+                <div class="flex flex-col items-center z-10">
+                  <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-sm ${isDone ? 'bg-emerald-600 text-white' : 'bg-gray-200 text-gray-400'} ${isCurrent ? 'ring-4 ring-emerald-100 scale-110' : ''}">
+                    <i class="fa ${st.icon}"></i>
+                  </div>
+                  <span class="text-[10px] font-bold mt-1.5 ${isDone ? 'text-emerald-800' : 'text-gray-400'}">${st.label}</span>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
     }
 
     function openOrderDetailModalByIdx(idx) {
@@ -1417,31 +1561,38 @@
       if (!ord) return;
 
       document.getElementById("popup-order-id").innerText = ord.orderId;
-      let mapLinkHtml = ord.googleMapsLink ? `<a href="${ord.googleMapsLink}" target="_blank" class="text-blue-600 font-bold underline">📍 View Delivery Location Map</a>` : "N/A";
+      document.getElementById("tracking-timeline-container").innerHTML = renderTrackingPipeline(ord.status);
+
+      let mapLinkHtml = ord.googleMapsLink ? `<a href="${ord.googleMapsLink}" target="_blank" class="text-blue-600 font-bold underline flex items-center gap-1"><i class="fa fa-location-arrow"></i> <span>View Delivery GPS Pin</span></a>` : "N/A";
 
       document.getElementById("order-detail-body").innerHTML = `
-        <div class="bg-gray-50 p-3 rounded-xl space-y-1.5 border">
-          <div><strong>Tarikh:</strong> ${escapeHTML(ord.date || ord.timestamp || "N/A")}</div>
-          <div><strong>Status:</strong> <span class="text-emerald-700 font-bold">${escapeHTML(ord.status)}</span></div>
-          <div><strong>Delivery Slot:</strong> ${escapeHTML(ord.slot || "Tomorrow 7 AM - 9 AM")}</div>
-          <div><strong>Address & Area:</strong> ${escapeHTML(ord.address || "N/A")}</div>
-          <div><strong>GPS Map:</strong> ${mapLinkHtml}</div>
-          <div class="border-t pt-2 mt-1"><strong>Order Items:</strong><br><span class="text-gray-900 font-semibold">${escapeHTML(ord.basket || ord.itemsSummary)}</span></div>
+        <div class="bg-gray-50 p-3.5 rounded-2xl space-y-2 border border-gray-100">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-gray-500">Delivery Status:</span>
+            <span class="text-xs bg-emerald-100 text-emerald-800 font-black px-2.5 py-0.5 rounded-full">${escapeHTML(ord.status)}</span>
+          </div>
+          <div><strong>Delivery Time Slot:</strong> <span class="text-gray-800 font-semibold">${escapeHTML(ord.slot || "Tomorrow 7 AM - 9 AM")}</span></div>
+          <div><strong>Address:</strong> <span class="text-gray-800 font-semibold">${escapeHTML(ord.address || "N/A")}</span></div>
+          <div><strong>Location Pin:</strong> ${mapLinkHtml}</div>
+          <div class="border-t pt-2 mt-1"><strong>Order Items Breakdown:</strong><br><span class="text-gray-900 font-semibold leading-relaxed">${escapeHTML(ord.basket || ord.itemsSummary)}</span></div>
           <div class="border-t pt-2 mt-1 flex justify-between text-sm font-black text-emerald-900">
-            <span>Total (COD):</span>
+            <span>Payment Mode:</span>
+            <span>COD (Pay on Delivery)</span>
+          </div>
+          <div class="flex justify-between text-base font-black text-emerald-900 border-t pt-2">
+            <span>Total Payable:</span>
             <span>₹${ord.amount || ord.totalAmount}</span>
           </div>
         </div>
       `;
 
-      const waMsg = `🛒 *Tomorrow Basket - Order Details*\n\n` +
+      const waMsg = `🛒 *Tomorrow Basket - Order Tracking Update*\n\n` +
         `🆔 *Order ID:* ${ord.orderId}\n` +
-        `📦 *Items:* ${ord.basket || ord.itemsSummary}\n` +
+        `📊 *Live Status:* ${ord.status}\n` +
         `⏰ *Slot:* ${ord.slot || "Tomorrow 7 AM - 9 AM"}\n` +
-        `📍 *Address:* ${ord.address || "N/A"}\n` +
-        `🗺️ *Map:* ${ord.googleMapsLink || "N/A"}\n` +
-        `💰 *Total:* ₹${ord.amount || ord.totalAmount} (COD)\n` +
-        `📊 *Status:* ${ord.status}`;
+        `📦 *Items:* ${ord.basket || ord.itemsSummary}\n` +
+        `💰 *Total:* ₹${ord.amount || ord.totalAmount} (COD)\n\n` +
+        `Durgapur Mandi Direct Fresh Veggies Delivery.`;
 
       const waLink = `https://wa.me/${BUSINESS_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`;
       document.getElementById("popup-whatsapp-btn").href = waLink;
