@@ -73,11 +73,19 @@
         <button onclick="switchTab('myorders')" id="nav-myorders" class="hover:text-emerald-700 transition">My Orders</button>
       </nav>
 
-      <button onclick="openCartDrawer()" class="bg-emerald-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-emerald-800 transition shadow">
-        <i class="fa fa-basket-shopping text-sm"></i>
-        <span>Basket</span>
-        <span id="cart-count" class="bg-yellow-400 text-gray-900 text-[10px] px-1.5 py-0.2 rounded-full font-black">0</span>
-      </button>
+      <div class="flex items-center gap-2">
+        <!-- 1-TAP WHATSAPP SUPPORT BUTTON -->
+        <button onclick="openLiveWhatsAppSupport()" title="Customer Support" class="bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm">
+          <i class="fa-brands fa-whatsapp text-sm text-green-600"></i>
+          <span class="hidden sm:inline">Help</span>
+        </button>
+
+        <button onclick="openCartDrawer()" class="bg-emerald-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 hover:bg-emerald-800 transition shadow">
+          <i class="fa fa-basket-shopping text-sm"></i>
+          <span>Basket</span>
+          <span id="cart-count" class="bg-yellow-400 text-gray-900 text-[10px] px-1.5 py-0.2 rounded-full font-black">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -323,10 +331,17 @@
       </div>
 
       <div class="bg-white border rounded-2xl p-5 shadow-sm space-y-4">
-        <h3 class="font-bold text-sm text-gray-800 border-b pb-2 flex items-center gap-2">
-          <i class="fa fa-location-dot text-emerald-700"></i>
-          <span>Delivery Address </span>
-        </h3>
+        <div class="flex justify-between items-center border-b pb-2">
+          <h3 class="font-bold text-sm text-gray-800 flex items-center gap-2">
+            <i class="fa fa-location-dot text-emerald-700"></i>
+            <span>Delivery Address</span>
+          </h3>
+          <!-- CLEAR DETAILS BUTTON DIRECTLY IN CHECKOUT -->
+          <button type="button" onclick="clearSavedData()" class="text-[11px] font-bold text-red-600 hover:underline flex items-center gap-1">
+            <i class="fa fa-rotate-left"></i> Clear Details
+          </button>
+        </div>
+
         <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-3 text-xs">
           <div>
             <label class="block font-bold text-gray-700 mb-1">Your Name <span class="text-red-500">*</span></label>
@@ -357,9 +372,11 @@
             <label class="block font-bold text-gray-700 mb-1">House / Flat No & Street <span class="text-red-500">*</span></label>
             <input type="text" id="custAddress" required placeholder="House no, Building name, Street" class="w-full border p-2.5 rounded-xl outline-none text-xs">
           </div>
+          
+          <!-- STRICT SEPARATE LANDMARK FIELD (FOR COLUMN I) -->
           <div>
-            <label class="block font-bold text-gray-700 mb-1">Landmark (Nearby) <span class="text-gray-400 font-normal">(Optional)</span></label>
-            <input type="text" id="custLandmark" placeholder="Jemon: Mandir er pashe, Club goli" class="w-full border p-2.5 rounded-xl outline-none text-xs">
+            <label class="block font-bold text-gray-700 mb-1">Landmark (Nearby) <span class="text-emerald-700 font-bold">(Column I Saved)</span></label>
+            <input type="text" id="custLandmark" placeholder="Jemon: Mandir er pashe, Club goli, High School More" class="w-full border p-2.5 rounded-xl outline-none text-xs">
           </div>
 
           <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl space-y-2">
@@ -402,10 +419,12 @@
         <h2 class="font-extrabold text-lg text-gray-800 font-['Hind_Siliguri']">My Orders</h2>
         <p class="text-xs text-gray-500 font-['Hind_Siliguri']">Apnar somosto booking o bortoman delivery status</p>
       </div>
-      <button onclick="clearSavedData()" class="text-[11px] text-red-600 hover:underline">Change Profile</button>
+      <button onclick="clearSavedData()" class="text-[11px] text-red-600 hover:underline flex items-center gap-1">
+        <i class="fa fa-rotate-left"></i> Clear Details
+      </button>
     </div>
     <div class="bg-white p-4 rounded-xl border shadow-sm flex gap-2">
-      <input type="tel" id="trackPhoneInput" maxlength="10" placeholder="10 digit mobile number din" class="w-full border px-3 py-2 rounded-lg text-xs outline-none">
+      <input type="tel" id="trackPhoneInput" maxlength="10" placeholder="10 digit mobile number din" class="w-full border px-3 py-2 rounded-lg text-xs outline-none font-mono">
       <button onclick="renderOrders()" class="bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg text-xs hover:bg-emerald-800 transition">Search</button>
     </div>
     <div id="orders-list" class="space-y-3"></div>
@@ -467,6 +486,27 @@
     </div>
   </div>
 
+  <!-- GPS DENIED GUIDANCE MODAL -->
+  <div id="gps-guidance-modal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center hidden p-4 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-3">
+      <div class="w-12 h-12 bg-amber-100 text-amber-800 rounded-2xl flex items-center justify-center text-xl mx-auto shadow-inner">
+        <i class="fa fa-triangle-exclamation"></i>
+      </div>
+      <h3 class="font-black text-gray-900 text-base">GPS Access Blocked!</h3>
+      <p class="text-xs text-gray-600 leading-relaxed text-left">
+        Apnar device ba browser-e location permission allow kora nei. Durgapur 5 KM verification-er jonno GPS dorkar:
+        <br><br>
+        <strong>Kibhabe allow korben:</strong>
+        <br>1. Chrome browser-er opore <i class="fa fa-lock text-slate-700"></i> icon-e tap korun.
+        <br>2. <strong>Permissions ➔ Location</strong> "Allow" korun.
+        <br>3. Page refresh kore abar "Use My Current Location" chapun.
+      </p>
+      <button onclick="closeGpsGuidanceModal()" class="w-full bg-slate-900 hover:bg-black text-white font-bold text-xs py-2.5 rounded-xl transition">
+        Bujhechi, Abar Chesta Korbo
+      </button>
+    </div>
+  </div>
+
   <!-- ORDER SUCCESS MODAL -->
   <div id="order-success-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden p-4 backdrop-blur-sm">
     <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center space-y-4">
@@ -476,7 +516,7 @@
       <h3 class="font-black text-lg text-gray-900">Order Confirmed!</h3>
       <p class="text-xs text-gray-600 leading-relaxed font-['Hind_Siliguri']">
         Apnar order Google Sheet-e safolhabe book hoyeche.<br>
-        Order ID: <span id="success-order-id" class="font-black text-emerald-800"></span>
+        Order ID: <span id="success-order-id" class="font-black text-emerald-800 font-mono"></span>
       </p>
       <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-left space-y-1 text-gray-700">
         <div><strong>Slot:</strong> <span id="success-slot"></span></div>
@@ -500,7 +540,7 @@
           <h3 class="font-black text-base text-gray-900 font-['Hind_Siliguri'] flex items-center gap-2">
             <span>Order Tracking</span>
           </h3>
-          <span id="popup-order-id" class="text-xs text-emerald-800 font-black"></span>
+          <span id="popup-order-id" class="text-xs text-emerald-800 font-black font-mono"></span>
         </div>
         <button onclick="closeOrderDetailModal()" class="text-gray-400 hover:text-gray-700 text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-full">×</button>
       </div>
@@ -533,7 +573,10 @@
   <!-- JAVASCRIPT ENGINE -->
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby-DzS92he27eqCvlZRPS1ZR7bxp3aCb6av_M6JPKRihrgu6Y0wFdjKk7O9-up8YTbI_Q/exec";
-    const BUSINESS_WHATSAPP_NUMBER = "919876543210";
+    
+    // BUSINESS CONTACT (Default: 917098177694, Auto-syncs from Sheet if available)
+    let businessPhone = "917098177694";
+    let businessEmail = "support@tomorrowbasket.com";
     
     let cart = [];
     let liveBasketsData = [];
@@ -741,6 +784,10 @@
         const data = await response.json();
         if (data.status !== "success") return;
 
+        // Dynamic WhatsApp & Settings from Sheet
+        if (data.businessPhone) businessPhone = data.businessPhone;
+        if (data.businessEmail) businessEmail = data.businessEmail;
+
         if (Array.isArray(data.baskets) && data.baskets.length > 0) {
           liveBasketsData = data.baskets.filter(b => {
             const name = String(b.name || '').toLowerCase();
@@ -863,10 +910,15 @@
           }
         },
         function(err) {
-          statusDiv.innerHTML = `<span class="text-red-600 font-bold">⚠️ GPS permission denied or unavailable.</span>`;
+          statusDiv.innerHTML = `<span class="text-red-600 font-bold">⚠️ GPS permission denied.</span>`;
+          document.getElementById("gps-guidance-modal").classList.remove("hidden");
         },
         { enableHighAccuracy: true, timeout: 10000 }
       );
+    }
+
+    function closeGpsGuidanceModal() {
+      document.getElementById("gps-guidance-modal").classList.add("hidden");
     }
 
     // HOME SCREEN BASKETS (WITH LIVE CORNER BADGE & MANDI FRESH BADGE)
@@ -881,7 +933,6 @@
         const img = (b.img && String(b.img).startsWith("http")) ? b.img : customBasketImages[idx % customBasketImages.length];
         const fallback = basketDefaultImgs[idx % basketDefaultImgs.length];
 
-        // Live Delivery Corner Badge
         const delCornerBadge = delFee === 0 
           ? `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">🚚 FREE DELIVERY</span>`
           : `<span class="absolute top-3 right-3 bg-black/75 backdrop-blur-sm text-yellow-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">+ ₹${delFee} Delivery</span>`;
@@ -906,10 +957,10 @@
             </div>
             <div class="pt-2 border-t flex items-center justify-between">
               <div>
-                <span class="text-base font-black text-gray-900">₹${price}</span>
+                <span class="text-base font-black text-gray-900 font-mono">₹${price}</span>
                 <span class="text-[10px] text-gray-400 block">${deliveryBottomText}</span>
               </div>
-              <button onclick="event.stopPropagation(); addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow flex items-center gap-1">
+              <button onclick="event.stopPropagation(); addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow flex items-center gap-1 active:scale-95">
                 <span>+ Add</span>
               </button>
             </div>
@@ -931,7 +982,6 @@
         const img = (b.img && String(b.img).startsWith("http")) ? b.img : customBasketImages[idx % customBasketImages.length];
         const fallback = basketDefaultImgs[idx % basketDefaultImgs.length];
 
-        // Live Delivery Corner Badge
         const delCornerBadge = delFee === 0 
           ? `<span class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">🚚 FREE DELIVERY</span>`
           : `<span class="absolute top-3 right-3 bg-black/75 backdrop-blur-sm text-yellow-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-md">+ ₹${delFee} Delivery</span>`;
@@ -968,14 +1018,13 @@
                 <div class="text-[11px] font-extrabold text-emerald-800 uppercase tracking-wide font-['Hind_Siliguri']">
                   ✨ আজকের Basket Contents:
                 </div>
-                <!-- NO SCROLLBAR: All badges displayed cleanly in full card -->
                 <div class="flex flex-wrap gap-1.5 pt-1">
                   ${itemsHtml || '<span class="text-xs text-gray-400">Not specified</span>'}
                 </div>
               </div>
             </div>
             
-            <button onclick="addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-2xl text-xs transition shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wider mt-2">
+            <button onclick="addBasketToCart(${idx}, '${escapeHTML(b.name)}', ${price}, ${delFee})" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-3 rounded-2xl text-xs transition shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wider mt-2 active:scale-95">
               <span>${buttonText}</span>
             </button>
           </div>
@@ -999,11 +1048,11 @@
             </div>
             <div>
               <div class="font-bold text-gray-800 text-xs truncate">${escapeHTML(v.name)}</div>
-              <div class="text-xs font-black text-emerald-800 mt-0.5">
+              <div class="text-xs font-black text-emerald-800 mt-0.5 font-mono">
                 ${rate > 0 ? "₹" + rate : "TBD"}<span class="text-[9px] text-gray-400 font-normal"> / ${unit}</span>
               </div>
             </div>
-            <button onclick="addVegItem('${escapeHTML(v.name)}', ${rate}, '${unit}')" class="mt-2 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold py-1.5 rounded-lg text-[11px] transition border border-emerald-200">
+            <button onclick="addVegItem('${escapeHTML(v.name)}', ${rate}, '${unit}')" class="mt-2 w-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold py-1.5 rounded-lg text-[11px] transition border border-emerald-200 active:scale-95">
               + Add
             </button>
           </div>
@@ -1022,11 +1071,11 @@
         const unit = v.unit ? String(v.unit).toUpperCase() : "KG";
         let diff = today - yesterday;
         
-        let trendHtml = `<span class="text-gray-500 font-bold text-[11px] px-2.5 py-1 rounded-full bg-gray-100">= SAME</span>`;
+        let trendHtml = `<span class="text-gray-500 font-bold text-[11px] px-2.5 py-1 rounded-full bg-gray-100 font-mono">= SAME</span>`;
         if (diff > 0) {
-          trendHtml = `<span class="bg-emerald-100 text-emerald-800 font-black text-[11px] px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm">▲ UP ₹${diff}</span>`;
+          trendHtml = `<span class="bg-emerald-100 text-emerald-800 font-black text-[11px] px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm font-mono">▲ UP ₹${diff}</span>`;
         } else if (diff < 0) {
-          trendHtml = `<span class="bg-red-100 text-red-700 font-black text-[11px] px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm">▼ DOWN ₹${Math.abs(diff)}</span>`;
+          trendHtml = `<span class="bg-red-100 text-red-700 font-black text-[11px] px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm font-mono">▼ DOWN ₹${Math.abs(diff)}</span>`;
         }
         
         const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
@@ -1040,8 +1089,8 @@
               <span class="text-xs">${escapeHTML(v.name)}</span>
             </td>
             <td class="py-2.5 px-3 font-semibold text-gray-500 text-xs">${escapeHTML(unit)}</td>
-            <td class="py-2.5 px-3 font-black text-emerald-800 text-sm">₹${today}</td>
-            <td class="py-2.5 px-3 text-gray-400 font-medium text-xs">₹${yesterday}</td>
+            <td class="py-2.5 px-3 font-black text-emerald-800 text-sm font-mono">₹${today}</td>
+            <td class="py-2.5 px-3 text-gray-400 font-medium text-xs font-mono">₹${yesterday}</td>
             <td class="py-2.5 px-3 text-right">${trendHtml}</td>
           </tr>
         `;
@@ -1058,9 +1107,9 @@
         let diff = today - yesterday;
         let trendHtml = `<span class="text-gray-400 font-bold text-[10px]">— Stable</span>`;
         if (diff > 0) {
-          trendHtml = `<span class="bg-emerald-100 text-emerald-800 font-bold text-[10px] px-2 py-0.5 rounded-full">▲ UP ₹${diff}</span>`;
+          trendHtml = `<span class="bg-emerald-100 text-emerald-800 font-bold text-[10px] px-2 py-0.5 rounded-full font-mono">▲ UP ₹${diff}</span>`;
         } else if (diff < 0) {
-          trendHtml = `<span class="bg-red-100 text-red-700 font-bold text-[10px] px-2 py-0.5 rounded-full">▼ DOWN ₹${Math.abs(diff)}</span>`;
+          trendHtml = `<span class="bg-red-100 text-red-700 font-bold text-[10px] px-2 py-0.5 rounded-full font-mono">▼ DOWN ₹${Math.abs(diff)}</span>`;
         }
         
         const img = (v.img && String(v.img).startsWith("http")) ? v.img : getImageForVeg(v.name);
@@ -1077,8 +1126,8 @@
                 ${trendHtml}
               </div>
               <div class="flex justify-between items-baseline">
-                <span class="text-xs font-black text-emerald-800">₹${today} <span class="text-[10px] text-gray-400 font-normal">/ ${escapeHTML(unit)}</span></span>
-                <span class="text-[10px] text-gray-400 font-medium">Yesterday: ₹${yesterday}</span>
+                <span class="text-xs font-black text-emerald-800 font-mono">₹${today} <span class="text-[10px] text-gray-400 font-normal">/ ${escapeHTML(unit)}</span></span>
+                <span class="text-[10px] text-gray-400 font-medium font-mono">Yesterday: ₹${yesterday}</span>
               </div>
             </div>
           </div>
@@ -1123,7 +1172,7 @@
         if (baseRate === 0) {
           actionHtml = `<button disabled class="w-full bg-gray-200 text-gray-400 font-bold py-1.5 rounded-xl text-xs cursor-not-allowed">Out of Stock</button>`;
         } else if (qty === 0) {
-          actionHtml = `<button onclick="addVegItem('${escapeHTML(itemName)}', ${baseRate}, '${unit}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm">+ Add</button>`;
+          actionHtml = `<button onclick="addVegItem('${escapeHTML(itemName)}', ${baseRate}, '${unit}')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-1.5 rounded-xl text-xs transition shadow-sm active:scale-95">+ Add</button>`;
         } else {
           const formattedQty = getDisplayQty(qty, unit);
           actionHtml = `
@@ -1142,7 +1191,7 @@
                 <img src="${img}" loading="lazy" class="w-full h-full object-cover">
               </div>
               <div class="font-extrabold text-gray-900 text-xs truncate">${escapeHTML(itemName)}</div>
-              <div class="text-[11px] text-gray-500 font-semibold mt-0.5 mb-2">
+              <div class="text-[11px] text-gray-500 font-semibold mt-0.5 mb-2 font-mono">
                 ${baseRate > 0 ? "₹" + baseRate : "TBD"} <span class="text-[10px] text-gray-400">/ ${escapeHTML(unit)}</span>
               </div>
             </div>
@@ -1240,7 +1289,7 @@
               <span class="text-[10px] text-gray-400 font-semibold block">${displayQty}</span>
             </div>
             <div class="flex items-center gap-3">
-              <span class="font-black text-xs text-gray-900">₹${p.toFixed(1)}</span>
+              <span class="font-black text-xs text-gray-900 font-mono">₹${p.toFixed(1)}</span>
               <button onclick="removeCartItem(${idx})" class="text-red-500 hover:text-red-700 text-xs">
                 <i class="fa fa-trash"></i>
               </button>
@@ -1284,7 +1333,7 @@
               <div class="font-bold text-gray-800">${escapeHTML(item.title)}</div>
               <div class="text-[10px] text-gray-500 mt-0.5">Qty: ${displayQty}</div>
             </div>
-            <div class="font-black text-gray-900 text-xs">₹${p.toFixed(1)}</div>
+            <div class="font-black text-gray-900 text-xs font-mono">₹${p.toFixed(1)}</div>
           </div>
         `;
       }).join("");
@@ -1303,7 +1352,6 @@
       const q = (document.getElementById("searchInput").value || "").toLowerCase().trim();
       let filtered = liveVegetableData;
 
-      // Category matching
       if (activeCategory !== "all") {
         filtered = filtered.filter(v => {
           const name = (v.name || "").toLowerCase();
@@ -1323,7 +1371,7 @@
       renderShopGrid(filtered);
     }
 
-    // ORDER SUBMIT WITH STRUCTURED ITEMS_LIST FOR ORDER_ITEMS SHEET
+    // ORDER SUBMIT WITH EXPLICIT LANDMARK COLUMN I MAPPING
     async function submitOrder(e) {
       e.preventDefault();
       
@@ -1374,7 +1422,6 @@
       const landmarkVal = userProfile.landmark;
       const finalAddress = `${addressVal}${landmarkVal ? ' (Landmark: ' + landmarkVal + ')' : ''} [Area: ${userProfile.area}]`;
 
-      // ITEM-BY-ITEM LIST FOR ORDER_ITEMS SHEET
       const structuredItems = cart.map(item => {
         let p = (item.type === "VEG") ? getPrice(item.qty, item.unit, item.baseRate) : (item.unitPrice * item.qty);
         let u = item.unit || "PCS";
@@ -1399,6 +1446,7 @@
         phone: userProfile.phone,
         area: userProfile.area,
         address: finalAddress,
+        landmark: landmarkVal, // Column I Mapping
         slot: userProfile.slot,
         itemsSummary: itemsSummary,
         itemsList: structuredItems,
@@ -1436,7 +1484,7 @@
         `💰 *Total:* ₹${total} (Pay on Delivery)\n\n` +
         `Kal sokale arat theke tatka sobji delivery korar jonno anurodh korchi. Dhonnobad!`;
 
-      const waLink = `https://wa.me/${BUSINESS_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`;
+      const waLink = `https://wa.me/${businessPhone}?text=${encodeURIComponent(waMsg)}`;
       document.getElementById("success-whatsapp-btn").href = waLink;
       document.getElementById("order-success-modal").classList.remove("hidden");
     }
@@ -1501,14 +1549,14 @@
         <div onclick="openOrderDetailModalByIdx(${idx})" class="bg-white border rounded-2xl p-4 shadow-sm hover:border-emerald-600 cursor-pointer transition space-y-2 text-xs">
           <div class="flex justify-between items-center border-b pb-2">
             <div>
-              <span class="font-extrabold text-gray-900">${escapeHTML(ord.orderId)}</span>
+              <span class="font-extrabold text-gray-900 font-mono">${escapeHTML(ord.orderId)}</span>
               <span class="text-[10px] text-gray-400 block">${escapeHTML(ord.date || ord.timestamp || "")}</span>
             </div>
             <span class="bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full text-[11px]">${escapeHTML(ord.status)}</span>
           </div>
           <div class="flex justify-between items-center">
             <span class="font-bold text-gray-700 truncate max-w-[220px]">${escapeHTML(ord.basket || ord.itemsSummary)}</span>
-            <span class="font-black text-emerald-800 text-sm">₹${ord.amount || ord.totalAmount}</span>
+            <span class="font-black text-emerald-800 text-sm font-mono">₹${ord.amount || ord.totalAmount}</span>
           </div>
           <div class="text-[10px] text-emerald-700 font-bold text-right flex items-center justify-end gap-1">
             <span>Track Status</span> &rarr;
@@ -1581,7 +1629,7 @@
           </div>
           <div class="flex justify-between text-base font-black text-emerald-900 border-t pt-2">
             <span>Total Payable:</span>
-            <span>₹${ord.amount || ord.totalAmount}</span>
+            <span class="font-mono">₹${ord.amount || ord.totalAmount}</span>
           </div>
         </div>
       `;
@@ -1594,7 +1642,7 @@
         `💰 *Total:* ₹${ord.amount || ord.totalAmount} (COD)\n\n` +
         `Durgapur Mandi Direct Fresh Veggies Delivery.`;
 
-      const waLink = `https://wa.me/${BUSINESS_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMsg)}`;
+      const waLink = `https://wa.me/${businessPhone}?text=${encodeURIComponent(waMsg)}`;
       document.getElementById("popup-whatsapp-btn").href = waLink;
       document.getElementById("order-success-modal").classList.add("hidden");
       document.getElementById("order-detail-modal").classList.remove("hidden");
@@ -1619,10 +1667,19 @@
     }
 
     function clearSavedData() {
-      if (confirm("Clear profile data?")) {
+      if (confirm("Clear profile details? Saved address and phone will be reset.")) {
         localStorage.removeItem("tb_user");
         document.getElementById("orderForm").reset();
+        document.getElementById("location-status").innerHTML = "Please select your Delivery Area first";
+        document.getElementById("gpsBtn").disabled = true;
+        document.getElementById("gpsBtn").classList.add("bg-gray-400", "cursor-not-allowed");
+        document.getElementById("gpsBtn").classList.remove("bg-emerald-700", "hover:bg-emerald-800");
+        showToast("Profile details reset!");
       }
+    }
+
+    function openLiveWhatsAppSupport() {
+      window.open(`https://wa.me/${businessPhone}?text=Hello%20Tomorrow%20Basket,%20amar%20ekta%20help%20chilo!`, "_blank");
     }
   </script>
 </body>
