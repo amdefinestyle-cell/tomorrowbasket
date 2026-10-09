@@ -1,23 +1,13 @@
 {
-  "name": "Tomorrow Basket - Durgapur",
-  "short_name": "Tomorrow Basket",
-  "start_url": "./index.html",
-  "display": "standalone",
   "background_color": "#064e3b",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Tomorrow Basket",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Tomorrow Basket",
+  "start_url": "/",
   "theme_color": "#064e3b",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "basket1.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "basket2.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "description": "Fresh Vegetables Delivery in Durgapur",
+  "id": "https://amdefinestyle-cell.github.io/tomorrowbasket/"
 }
